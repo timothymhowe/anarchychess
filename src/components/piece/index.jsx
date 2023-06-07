@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import PropTypes from 'prop-types';
 import './piece-styles.css';
 
@@ -11,19 +11,32 @@ const piece_dict = {
 "R" : "rook"
 };
 
-const Piece = ({ name, square}) => {
+const Piece = ({ name, square, setFromSquare}) => {
     const color = name === name.toUpperCase() ? 'w' : 'b'
     const imageName = color + "_" + piece_dict[name.toUpperCase()];
+    const element = useRef();
     let image;
 
     try {
-        image = require(`../../assets/[pieces]${imageName}.png`);
+        image = require(`../../assets/pieces/${imageName}.png`);
     } catch (error) {
-        image = require('../../assets/pieces/empty.png'); // empty image just in case
+        image = ''; // empty image just in case
     }
 
+    const handleDragStart=()=>{
+        setFromSquare(square);
+        setTimeout(() => {
+            element.current.style.display = 'none';
+        }, 0);
+    };
+    const handleDragEnd = () => {
+        element.current.style.display = 'block';
+    };
+
     return (
-    <img className="piece" src={image} alt="" draggable={true}/>
+    <div>
+    <img className={piece_dict[name.toUpperCase()]} src={image} alt="" ref={element} draggable={true} onDragStart={handleDragStart} onDragEnd={handleDragEnd}/>
+    </div>
     );
 };
 

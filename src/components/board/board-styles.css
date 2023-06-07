@@ -5,7 +5,7 @@
     border-radius: 20px;
     box-shadow: 0 0 5px 5px #999898;
     width: calc(100vh * .9);
-    height: calc(100vh * 0.85);
+    height: calc(100vh * 0.9);
     display: grid;
     grid-template-columns: repeat (8,1fr);
     background-color:burlywood;

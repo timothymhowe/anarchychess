@@ -1,4 +1,25 @@
-.piece {
-	width: 50%;
-	height: 50%;
+.king {
+	width: 101%;
+	height: 101%;
+}
+.queen {
+	width: 104%;
+	height: 101%;
+}
+.rook {
+	width: 89%;
+	height: 89%;
+}
+.knight {
+	width: 95%;
+	height: 95%;
+}
+.bishop {
+	width: 98%;
+	height: 98%;
+}
+
+.pawn {
+ width: 75%;
+ height: 88%;
 }

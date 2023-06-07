@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
 import Game from './pages/Game'
+import { GameProvider } from './context/GameContext';
+
 
 function App() {
-	return <Game />;
+	return (
+		<GameProvider>
+			<Game />
+		</GameProvider>
+		);
 	// return <h2>Chess?</h2>
 }
 
