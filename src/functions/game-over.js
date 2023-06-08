@@ -11,15 +11,15 @@ export const getGameOverState = (chess) => {
 
         //determine the type of draw
         if (chess.isStalemate()) {
-            return [true, 'by stalemate'];
+            return [true, 'Draw by stalemate'];
         } else if (chess.isThreefoldRepetition()) {
-            return [true, 'by threefold repetition'];
+            return [true, 'Draw by threefold repetition'];
         } else if (chess.isInsufficientMaterial()) {
-            return [true, 'by insufficient material'];
+            return [true, 'Draw by insufficient material'];
         } else if (chess._halfMoves >= 100) {
-            return [true,'by boredom (50 move rule)'];
+            return [true,'Draw by boredom (50 move rule)'];
         } else {
-            return [true,'by divine intervention?'];
+            return [true,'Draw by divine intervention?'];
         }
     }
 }
