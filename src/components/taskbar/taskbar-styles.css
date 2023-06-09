@@ -1,0 +1,8 @@
+.taskbar{
+    z-index: 9999999;
+
+}
+
+.start-button{
+    font-weight: 'bold' ;
+}

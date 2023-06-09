@@ -1,0 +1,15 @@
+.desktop{
+    background-color: #008080;
+    width:100%;
+    height: calc(100% - 47px);
+    overflow: clip;
+    position: relative;
+    z-index: 1;
+
+
+    position: relative;
+    display: inline-block;
+    text-align: center;
+
+    z-index: 1;
+}

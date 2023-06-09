@@ -2,4 +2,6 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-column-gap:0px;
+    min-width: 700px;
+    max-width: 90vw;
 }

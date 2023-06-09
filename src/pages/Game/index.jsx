@@ -1,11 +1,13 @@
 import React, {useState, useRef, useEffect, useContext} from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+
+// importing react95 components for styling the page
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 /* Original Windows95 font (optional) */
 import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
 import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
 
-
+import Taskbar from '../../components/taskbar'
 
 import {GameContext} from '../../context/GameContext';
 import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
@@ -13,6 +15,8 @@ import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
 import GameOver from "../../components/gameover";
+
+// import Desktop from '../../components/desktop';
 import Player from "../../components/player";
 import io from 'socket.io-client';
 import './game-styles.css';
@@ -28,17 +32,26 @@ let boing_sfx,ohno_sfx,oops_sfx,phew_sfx;
 let sfxs;
 var openingMove = true;
 
-const Wrapper = styled.div`
-  background: ${({ theme }) => theme.material};
+
+  
  
-  #default-buttons button {
+ 
+
+const Desktop = styled.div`
+background: ${({ theme }) => theme.desktopBackground};
+min-height:100vh;
+
+
+#default-buttons button {
     margin-bottom: 1rem;
     margin-right: 1rem;
+    user-select:none;
+    
   }
 
   #boardbox {
     background: ${({ theme }) => theme.canvas};
-    width: 90%;
+    width: 100%;
     height:auto;
     margin-top:3%;
     margin-left:0%;
@@ -46,8 +59,14 @@ const Wrapper = styled.div`
     display:inline-block;
     text-align:center;
   }
-`;
 
+  .window-content{
+    padding:inherit;
+    padding-top:2rem;
+    width:calc(100% - padding-top);
+    height:auto;
+  }
+`;  
 
 
 const GlobalStyles = createGlobalStyle`
@@ -67,6 +86,7 @@ ${styleReset}
   body, input, select, textarea {
     font-family: 'ms_sans_serif';
   }
+  background-color:#008080
 `
 
 // initializes howl sfx for board interactivity
@@ -257,33 +277,41 @@ const Game = () => {
         return <GameOver />;
     }
     return (
-    <div className="game">
-    <Wrapper>
-   <GlobalStyles />
-    <ThemeProvider theme={original}>
-    <Window className="window">
-        <WindowHeader className="window-title">
-            <span>AnarchyChess.exe</span>
-            <Button>
-                <span className="close-icon" />
-            </Button>
-        </WindowHeader>
+    <div style={{height:'100vh'}}>
 
-
-       
-            <Frame variant='field' id="boardbox">
-                {/* <Player name={player} color={playerColor} player />
-                <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} /> */}
-                <Board 
-                    nodes={board} 
-                    makeMove={makeMove} 
-                    setFromSquare={setFromSquare} 
-                />
-            </Frame>
-        
-        </Window>
-        </ThemeProvider>
-        </Wrapper>
+    <Desktop>
+  
+        <GlobalStyles />
+        <Window className="window">
+            <WindowHeader className="window-title" style={{height:'30px'}}>
+                <span>
+                    <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>
+                        <img src={new URL(`../../assets/icons/anarchy/16x.png`, import.meta.url).href} 
+                        style={{height:'16px',width:'16px',marginTop:'2px'}}/>
+                    </span>
+                        AnarchyChess.exe
+                </span> 
+                <Button style={{height:'25px',width:'25px',marginTop:'3px'}}select>
+                    <span className="close-icon" />
+                </Button>
+            </WindowHeader>
+            <div className='window-content'>
+                        
+                    {/* <Player name={player} color={playerColor} player />
+                    <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} /> */}
+                    <Board 
+                        nodes={board} 
+                        makeMove={makeMove} 
+                        setFromSquare={setFromSquare} 
+                    />
+            </div>
+            </Window>
+        <div style={{width:"100%"}}></div>
+    </Desktop>
+    
+    <header className='start-head'>
+        <Taskbar ></Taskbar>
+    </header>
     </div>
     );
 };
