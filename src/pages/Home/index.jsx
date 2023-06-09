@@ -70,7 +70,7 @@ const Form = () => {
 
 const Home = () => {
     const Image = () => (
-        <img src={import('../../assets/home.jpg')} alt="home" className="bg-img" />
+        <img src={import('/assets/home.jpg')} alt="home" className="bg-img" />
         );
         return <Layout Content={Form} Image={Image} />;
     };

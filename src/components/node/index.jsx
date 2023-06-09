@@ -1,6 +1,10 @@
 import React, {useContext} from "react";
 import PropTypes from 'prop-types';
 
+import {DndProvider} from 'react-dnd'
+import {HTML5Backend} from 'react-dnd-html5-backend'
+
+
 import { isLightSquare, Node as BoardNode } from '../../functions'
 import Piece from '../piece';
 import {GameContext} from '../../context/GameContext';
@@ -16,13 +20,14 @@ import './node-styles.css';
 const Node = ({node,idx, makeMove, setFromSquare}) => {
     const light = isLightSquare(node.square,idx);
 
-    const { possibleMoves, turn, check } = useContext(GameContext);
+    const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
     
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
 
     // determines if the node is a valid move
     const isPossibleMove = possibleMoves.includes(node.square);
+    const isOpponentMove = opponentMoves.includes(node.square);
 
     const inCheck = () => {
         const isKing = node.piece.toUpperCase() === 'K';
@@ -43,7 +48,7 @@ const Node = ({node,idx, makeMove, setFromSquare}) => {
         <div 
             className={`overlay ${isPossibleMove && 'possible-move'} ${
                 inCheck() && 'check'
-            }`}     
+            } ${isOpponentMove && 'opponent-move'}`}     
         >
             <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} />
         </div>

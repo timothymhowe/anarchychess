@@ -33,7 +33,7 @@ const ShareButtons = ({ shareText, subject}) => {
                     key={link.name}
                 >
                     <img
-                        src={import(`../../assets/social/${link.name}.png`)}
+                        src={import(`/assets/social/${link.name}.png`)}
                         alt={link.name}
                     />
                 </a>

@@ -1,4 +1,12 @@
 import React, {useState, useRef, useEffect, useContext} from "react";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
+/* Original Windows95 font (optional) */
+import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
+import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
+
+
+
 import {GameContext} from '../../context/GameContext';
 import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
 import { DEFAULT_POSITION, Chess} from 'chess.js';
@@ -12,31 +20,74 @@ import './game-styles.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'query-string';
 
+/* Pick a theme of your choice */
+import original from 'react95/dist/themes/original';
 
 import {Howl} from "howler";
 let boing_sfx,ohno_sfx,oops_sfx,phew_sfx;
 let sfxs;
 var openingMove = true;
 
+const Wrapper = styled.div`
+  background: ${({ theme }) => theme.material};
+ 
+  #default-buttons button {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+
+  #boardbox {
+    background: ${({ theme }) => theme.canvas};
+    width: 90%;
+    height:auto;
+    margin-top:3%;
+    margin-left:0%;
+    margin-right:0  %;
+    display:inline-block;
+    text-align:center;
+  }
+`;
+
+
+
+const GlobalStyles = createGlobalStyle`
+${styleReset}
+@font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif}') format('woff2');
+    font-weight: 400;
+    font-style: normal
+  }
+  @font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif_bold}') format('woff2');
+    font-weight: bold;
+    font-style: normal
+  }
+  body, input, select, textarea {
+    font-family: 'ms_sans_serif';
+  }
+`
+
 // initializes howl sfx for board interactivity
 function initialize_sfx() {
         boing_sfx = new Howl({
-            src: ['../../assets/sfx/boing.mp3'],
+            src: ['/assets/sfx/boing.mp3'],
             format: ['mp3'],
             html5: true,
         });
         ohno_sfx = new Howl({
-            src: ['../../assets/sfx/ohno.mp3'],
+            src: ['/assets/sfx/ohno.mp3'],
             format: ['mp3'],
             html5: true,
         });
         oops_sfx = new Howl({
-            src: ['../../assets/sfx/oops.mp3'],
+            src: ['/assets/sfx/oops.mp3'],
             format: ['mp3'],
             html5: true,
         });
         phew_sfx = new Howl({
-            src: ['../../assets/sfx/phew.mp3'],
+            src: ['/assets/sfx/phew.mp3'],
             format: ['mp3'],
             html5: true,
         });
@@ -85,6 +136,7 @@ const Game = () => {
         playerName.current = name;
         GID.current = id;
     }, [location.search]);
+    
 
     /**
      * 
@@ -171,12 +223,8 @@ const Game = () => {
 
         if (openingMove){
             initialize_sfx()
-            console.log('yeet')
             openingMove = false;
         }
-
-
-        
 
         const from = fromSquare.current;
         const to = square;
@@ -190,7 +238,8 @@ const Game = () => {
         } catch (error){
             //if the move is not valid
             console.log("oops!")
-            sfxs[0].play()
+            const which_sound = Math.floor(Math.random() * 4)
+            sfxs[which_sound].play();
         }
        
     };
@@ -209,13 +258,32 @@ const Game = () => {
     }
     return (
     <div className="game">
-        <Player name={player} color={playerColor} player />
-        <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} />
-        <Board 
-            nodes={board} 
-            makeMove={makeMove} 
-            setFromSquare={setFromSquare} 
-        />
+    <Wrapper>
+   <GlobalStyles />
+    <ThemeProvider theme={original}>
+    <Window className="window">
+        <WindowHeader className="window-title">
+            <span>AnarchyChess.exe</span>
+            <Button>
+                <span className="close-icon" />
+            </Button>
+        </WindowHeader>
+
+
+       
+            <Frame variant='field' id="boardbox">
+                {/* <Player name={player} color={playerColor} player />
+                <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} /> */}
+                <Board 
+                    nodes={board} 
+                    makeMove={makeMove} 
+                    setFromSquare={setFromSquare} 
+                />
+            </Frame>
+        
+        </Window>
+        </ThemeProvider>
+        </Wrapper>
     </div>
     );
 };

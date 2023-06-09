@@ -11,22 +11,28 @@ const piece_dict = {
 "R" : "rook"
 };
 
-const Piece = ({ name, square, setFromSquare}) => {
+
+
+const Piece = ({ name, square, setFromSquare, preview}) => {
+    const full_name = piece_dict[name.toUpperCase()]
     const color = name === name.toUpperCase() ? 'w' : 'b'
-    const imageName = color + "_" + piece_dict[name.toUpperCase()];
+    const imageName = color + "_" + full_name;
     const element = useRef();
-    let image;
+    let imageUrl;
 
     try {
-        image = require(`../../assets/pieces/${imageName}.png`);
+        // console.log(`/assets/pieces/${imageName}.png`)
+        imageUrl = new URL(`../../assets/pieces/${imageName}.png`, import.meta.url).href;
     } catch (error) {
-        image = ''; // empty image just in case
+        console.log(error)
     }
 
     const handleDragStart=()=>{
         setFromSquare(square);
         setTimeout(() => {
             element.current.style.display = 'none';
+            // document.getElementsByClassName('board').style.cursor = 'none'
+
         }, 0);
     };
     const handleDragEnd = () => {
@@ -34,8 +40,8 @@ const Piece = ({ name, square, setFromSquare}) => {
     };
 
     return (
-    <div>
-    <img className={piece_dict[name.toUpperCase()]} src={image} alt="" ref={element} draggable={true} onDragStart={handleDragStart} onDragEnd={handleDragEnd}/>
+    <div role={preview ? 'PiecePreview' : 'Piece'}>
+    <img className={full_name} src={imageUrl} alt="" ref={element} draggable={true} onDragStart={handleDragStart} onDragEnd={handleDragEnd}/>
     </div>
     );
 };

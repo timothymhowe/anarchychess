@@ -1,16 +1,5 @@
 .board{
-    padding: 1rem;
-    margin: 0 auto;
-    margin-top: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 0 5px 5px #999898;
-    width: calc(100vh * .9);
-    height: calc(100vh * 0.9);
-    display: grid;
-    grid-template-columns: repeat (8,1fr);
-    background-color:burlywood;
-
-    
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    grid-column-gap:0px;
 }

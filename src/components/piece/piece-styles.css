@@ -1,25 +1,25 @@
 .king {
-	width: 101%;
-	height: 101%;
+	width: 80%;
+	height: 80%;
 }
 .queen {
-	width: 104%;
-	height: 101%;
+	width: 80%;
+	height: 88%;
 }
 .rook {
-	width: 89%;
-	height: 89%;
+	width: 63%;
+	height: 73%;
 }
 .knight {
-	width: 95%;
-	height: 95%;
+	width: 75%;
+	height: 84%;
 }
 .bishop {
-	width: 98%;
-	height: 98%;
+	width: 75%;
+	height: 75%;
 }
 
 .pawn {
- width: 75%;
- height: 88%;
+ width: 55%;
+ height: 55%;
 }
