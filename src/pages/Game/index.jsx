@@ -21,22 +21,22 @@ var openingMove = true;
 // initializes howl sfx for board interactivity
 function initialize_sfx() {
         boing_sfx = new Howl({
-            src: ['../../assets/sfx/boing.wav'],
+            src: ['../../assets/sfx/boing.mp3'],
             format: ['mp3'],
             html5: true,
         });
         ohno_sfx = new Howl({
-            src: ['../../assets/sfx/ohno.wav'],
+            src: ['../../assets/sfx/ohno.mp3'],
             format: ['mp3'],
             html5: true,
         });
         oops_sfx = new Howl({
-            src: ['../../assets/sfx/oops.wav'],
+            src: ['../../assets/sfx/oops.mp3'],
             format: ['mp3'],
             html5: true,
         });
         phew_sfx = new Howl({
-            src: ['../../assets/sfx/phew.wav'],
+            src: ['../../assets/sfx/phew.mp3'],
             format: ['mp3'],
             html5: true,
         });

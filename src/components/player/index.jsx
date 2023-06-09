@@ -8,7 +8,7 @@ const Player = ({ name, color, player}) =>{
     return (
         <div className={`player ${player ? 'you' : 'opponent'}`}>
         <p>{name}</p>
-        <img src={require(`../../assets/pieces/${image}.png`)} alt="King" className="king" />
+        <img src={import (`../../assets/pieces/${image}.png`)} alt="King" className="king" />
         </div>
     );
 };
