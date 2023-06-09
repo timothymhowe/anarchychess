@@ -1,11 +1,13 @@
 import React, {useState, useRef, useEffect, useContext} from "react";
 import {GameContext} from '../../context/GameContext';
-import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from './actions';
+import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
 import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
 import GameOver from "../../components/gameover";
+import Player from "../../components/player";
 import io from 'socket.io-client';
+import './game-styles.css';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'query-string';
@@ -65,7 +67,13 @@ const Game = () => {
     const [fen, setFen] = useState(DEFAULT_POSITION);
     const { current: chess } = useRef(new Chess(fen));
     const [board, setBoard] = useState(createBoard(fen));
-    const { dispatch, gameOver } = useContext(GameContext)
+    const { 
+        dispatch, 
+        gameOver,
+        playerName: player,
+        opponentName,
+        playerColor,
+    } = useContext(GameContext);
 
     const location = useLocation();
     const nav = useNavigate();
@@ -201,6 +209,8 @@ const Game = () => {
     }
     return (
     <div className="game">
+        <Player name={player} color={playerColor} player />
+        <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} />
         <Board 
             nodes={board} 
             makeMove={makeMove} 
