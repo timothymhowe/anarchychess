@@ -5,6 +5,7 @@
   "dependencies": {
     "chess.js": "^1.0.0-beta.6",
     "howler": "^2.2.3",
+    "prop-types": "^15.8.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -12,7 +13,9 @@
     "socket.io-client": "^4.6.2"
   },
   "scripts": {
-
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,5 +31,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.2.1"
   }
 }
