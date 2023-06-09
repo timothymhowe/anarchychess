@@ -4,14 +4,16 @@ import Game from './pages/Game';
 import Home from './pages/Home';
 import { GameProvider } from './context/GameContext';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
 	return (
 		<Router>
 			<GameProvider>
-				<Route path="/" exact component={Home} />
-				<Route path="/game" component={Game} />
+				<Routes>
+					<Route path="/" exact element={<Home/>} />
+					<Route path="/game" element={<Game />} />
+				</Routes>
 			</GameProvider>
 		</Router>
 	);

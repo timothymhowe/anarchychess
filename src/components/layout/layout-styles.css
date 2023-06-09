@@ -19,7 +19,7 @@
 	font-size: 1.2rem;
 	box-shadow: 0 0 20px 7px #fafafa;
 	cursor: pointer;
-	font-family: 'Krona One', sans-serif;
+	font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
 }
 .app-title:hover {
 	animation: glow 1.5s infinite ease-in-out;
@@ -45,7 +45,7 @@
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	font-family: 'Grandstander', cursive;
+	font-family: 'Jokerman', sans-serif;
 }
 
 @keyframes glow {

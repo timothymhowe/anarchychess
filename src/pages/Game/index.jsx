@@ -1,11 +1,14 @@
 import React, {useState, useRef, useEffect, useContext} from "react";
 import {GameContext} from '../../context/GameContext';
-import { types } from "../../context/actions";
+import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from './actions';
 import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
 import GameOver from "../../components/gameover";
 import io from 'socket.io-client';
+
+import { useLocation, useNavigate } from 'react-router-dom';
+import qs from 'query-string';
 
 
 import {Howl} from "howler";
@@ -64,6 +67,17 @@ const Game = () => {
     const [board, setBoard] = useState(createBoard(fen));
     const { dispatch, gameOver } = useContext(GameContext)
 
+    const location = useLocation();
+    const nav = useNavigate();
+    const playerName = useRef();
+    const GID = useRef();
+
+    useEffect(() => {
+        const {id , name} = qs.parse(location.search);
+        playerName.current = name;
+        GID.current = id;
+    }, [location.search]);
+
     /**
      * 
      */
@@ -75,29 +89,43 @@ const Game = () => {
      * 
      */
     useEffect(() => {
-        socket.emit('join', {name: 'swordfish', gameID:'20'},({error, color}) => {
-            console.log({color});
-        });
+        socket.emit(
+            'join', 
+            {name: playerName.current, GID:GID.current},
+            ({error, color}) => 
+            {
+                if (error){
+                    nav('/');
+                }
+                dispatch(setPlayer(playerName.current));
+                dispatch(setPlayerColor(color));
+            }
 
-        socket.on('Welcome', ({message, opponent }) => {
-            console.log({message,opponent});
+        );
+
+        socket.on('welcome', ({message, opponent }) => {
+            dispatch(setMessage(message));
+            dispatch(setOpponent(opponent));
         });
 
         socket.on('opponentJoin', ({message, opponent}) => {
-            console.log({message,opponent});
+            dispatch(setMessage(message));
+            dispatch(setOpponent(opponent));
         });
 
         socket.on('opponentMove',({from,to}) => {
-            chess.move({from, to});
+            chess.move({ from, to });
             setFen(chess.fen());
+            dispatch(setMessage('Your Turn'));
+            dispatch(setOpponentMoves([from, to]));
             console.log(`Move made from ${from} to ${to}.`)
 
         });
 
         socket.on('message', ({message}) => {
-            console.log({message});
+            dispatch(setMessage(message));
         });
-    },[chess]);
+    },[chess, nav, dispatch]);
 
     
     /**
@@ -150,7 +178,7 @@ const Game = () => {
             chess.move({from, to});
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             setFen(chess.fen());
-            socket.emit('move', {gameID:'20', from, to})
+            socket.emit('move', {GID:GID.current, from, to})
         } catch (error){
             //if the move is not valid
             console.log("oops!")
