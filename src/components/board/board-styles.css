@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-column-gap:0px;
-    min-width: 700px;
-    max-width: 90vw;
+    aspect-ratio: 1 / 1;
+    height:calc(75vh - 47px);
+    min-height: 250px;
 }

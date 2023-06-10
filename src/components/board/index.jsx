@@ -7,10 +7,11 @@ import {Frame} from 'react95';
 
 
 const Board = ({ nodes, ...props }) => {
+    let bounds;
     return (
-        <Frame variant='well' id='boardbox'>
-        <Frame variant='well'>
-        <div className="board">
+        <Frame variant='well' className='boardbox'>
+        <Frame variant='well' style={{aspectRatio:'1 / 1',width:'inherit'}}>
+        <div className="board" style={{aspectRatio:'1 / 1'}} id="the_board">
             {nodes.map((node,idx)=>(
                 <Node node={node} idx={idx} key={node.square} {...props} />
             ))}

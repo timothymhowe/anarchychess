@@ -63,7 +63,8 @@ const Taskbar = ({}) => {
                 </div>
 
         <Frame variant='well' style={{padding:".3rem .5rem"}}>
-            June 9, 4:20 PM
+            <span style={{userSelect:'none'}}>June 9, 1984 4:20 PM</span>
+            
         </Frame>
             </Toolbar>
         </AppBar>

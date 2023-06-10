@@ -17,7 +17,7 @@ import './node-styles.css';
  * @param {*} param0 
  * @returns 
  */
-const Node = ({node,idx, makeMove, setFromSquare}) => {
+const Node = ({node,idx, makeMove, setFromSquare, bounds}) => {
     const light = isLightSquare(node.square,idx);
 
     const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
@@ -29,6 +29,7 @@ const Node = ({node,idx, makeMove, setFromSquare}) => {
     const isPossibleMove = possibleMoves.includes(node.square);
     const isOpponentMove = opponentMoves.includes(node.square);
 
+    // checks to see if the player is in check.
     const inCheck = () => {
         const isKing = node.piece.toUpperCase() === 'K';
         return turn === color && isKing && check;
@@ -39,11 +40,17 @@ const Node = ({node,idx, makeMove, setFromSquare}) => {
         makeMove(node.square)
     };
 
+    const handleDragOver = (e) =>{
+        e.preventDefault() 
+        this.style.border={}
+        console.log("Dragged over " + node.square)
+    }
+
     return (
-    <div className={`node ${light ? 'light' : 'dark'}`}
+    <div className={`node ${light ? 'light' : 'dark'}`} style={{position:'relative'}}
         
         onDrop = {handleDrop}
-        onDragOver={ (e) => e.preventDefault() }>
+        onDragOver={(e) => handleDragOver(e)}>
 
         <div 
             className={`overlay ${isPossibleMove && 'possible-move'} ${

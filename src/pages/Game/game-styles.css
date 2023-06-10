@@ -50,12 +50,9 @@
 }
 
 .window{
-    margin:auto;
-    max-width: 90vh;
     width:auto;
-    height:100%;
-    margin-top: 2vh;
-    margin-bottom: 5vh;
+    height:auto;
+
     padding-bottom: 1rem;
     display: inline-block;
     text-align: center;

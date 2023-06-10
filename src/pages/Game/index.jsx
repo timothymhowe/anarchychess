@@ -8,6 +8,9 @@ import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
 import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
 
 import Taskbar from '../../components/taskbar'
+import Shortcut from '../../components/shortcut'
+
+import Draggable from 'react-draggable'
 
 import {GameContext} from '../../context/GameContext';
 import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
@@ -33,13 +36,20 @@ let sfxs;
 var openingMove = true;
 
 
-  
+const Icons = styled.div`
+display: grid;
+width:100px;
+grid-template-columns: repeat(1,1fr);
+gap: 10px;
+grid-auto-rows:minmax(64px 72px);
+content
+`
  
  
 
 const Desktop = styled.div`
 background: ${({ theme }) => theme.desktopBackground};
-min-height:100vh;
+height:calc(100vh - 47px);
 
 
 #default-buttons button {
@@ -49,22 +59,23 @@ min-height:100vh;
     
   }
 
-  #boardbox {
+  .boardbox {
     background: ${({ theme }) => theme.canvas};
     width: 100%;
-    height:auto;
-    margin-top:3%;
+    height: 100%;
     margin-left:0%;
-    margin-right:0  %;
+    margin-right:0%;
     display:inline-block;
     text-align:center;
+    
   }
 
   .window-content{
-    padding:inherit;
-    padding-top:2rem;
-    width:calc(100% - padding-top);
-    height:auto;
+    height:100%;
+    width:auto;
+    aspect-ratio: 1 / 1;
+    margin:.25rem .25rem .5rem .25rem;
+
   }
 `;  
 
@@ -83,7 +94,7 @@ ${styleReset}
     font-weight: bold;
     font-style: normal
   }
-  body, input, select, textarea {
+  body, input, select, textarea, button {
     font-family: 'ms_sans_serif';
   }
   background-color:#008080
@@ -278,10 +289,21 @@ const Game = () => {
     }
     return (
     <div style={{height:'100vh'}}>
+     <GlobalStyles />
 
-    <Desktop>
-  
-        <GlobalStyles />
+    <Desktop style={{overflow:"clip"}}>
+        <Icons >
+            <Shortcut iconName={'recycle'}  label={'Recycle Bin'}>
+            </Shortcut>
+
+            <Shortcut iconName={'anarchy'}  label={'Anarchy Chess'}>
+            </Shortcut>
+
+        </Icons>
+
+
+
+        <Draggable bounds='parent' handle=".window-title">
         <Window className="window">
             <WindowHeader className="window-title" style={{height:'30px'}}>
                 <span>
@@ -295,6 +317,19 @@ const Game = () => {
                     <span className="close-icon" />
                 </Button>
             </WindowHeader>
+
+            <Toolbar>
+          <Button variant='menu' size='sm'>
+            File
+          </Button>
+          <Button variant='menu' size='sm'>
+            Edit
+          </Button>
+          <Button variant='menu' size='sm' disabled>
+            Save
+          </Button>
+        </Toolbar>
+
             <div className='window-content'>
                         
                     {/* <Player name={player} color={playerColor} player />
@@ -306,6 +341,7 @@ const Game = () => {
                     />
             </div>
             </Window>
+            </Draggable>
         <div style={{width:"100%"}}></div>
     </Desktop>
     

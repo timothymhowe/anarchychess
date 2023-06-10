@@ -1,0 +1,49 @@
+.shortcut{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #008080;
+    border:none;
+    margin: 10px 10px 10px 10px;
+    user-select: none;
+}
+
+.shortcut:focus{
+    border-style: groove;
+}
+
+.shorcut>img:focus{
+    height:5px;
+    mix-blend-mode: difference;
+}
+
+.shortcut-icon{
+    height: 40px;
+    width: 40px;
+    padding-bottom: 3px;
+}
+.shortcut-icon:focus{
+    height: 200px;
+    width: 220px;
+    padding-bottom: 3px;
+}
+
+
+
+.shortcut-text{
+    width:60px;
+    font-family: inherit;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.shortcut-text:{
+    width:60px;
+    font-family: inherit;
+    color: #ffffff;
+    font-size: 12px;
+    border-style: dashed;
+    border-color: white;
+    mix-blend-mode: difference;
+}
