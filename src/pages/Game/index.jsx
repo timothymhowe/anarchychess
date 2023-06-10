@@ -4,10 +4,11 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 // importing react95 components for styling the page
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 /* Original Windows95 font (optional) */
-import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
+// import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
+import ms_sans_serif from '../../assets/fonts/w95fa.woff2';
 import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
 
-import Taskbar from '../../components/taskbar'
+import Taskbar from '../../components/taskbar/taskbar'
 import Shortcut from '../../components/shortcut'
 
 import Draggable from 'react-draggable'
@@ -18,6 +19,8 @@ import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
 import GameOver from "../../components/gameover";
+
+import ChessWindow from "../../components/chesswindow"
 
 // import Desktop from '../../components/desktop';
 import Player from "../../components/player";
@@ -85,8 +88,8 @@ ${styleReset}
 @font-face {
     font-family: 'ms_sans_serif';
     src: url('${ms_sans_serif}') format('woff2');
-    font-weight: 400;
-    font-style: normal
+    font-weight: normal;
+    font-style: normal;
   }
   @font-face {
     font-family: 'ms_sans_serif';
@@ -301,9 +304,11 @@ const Game = () => {
 
         </Icons>
 
+        <ChessWindow board={board} makeMove={makeMove} setFromSquare={setFromSquare}>
 
+        </ChessWindow>
 
-        <Draggable bounds='parent' handle=".window-title">
+        {/* <Draggable bounds='parent' handle=".window-title">
         <Window className="window">
             <WindowHeader className="window-title" style={{height:'30px'}}>
                 <span>
@@ -328,12 +333,15 @@ const Game = () => {
           <Button variant='menu' size='sm' disabled>
             Save
           </Button>
+          <Button variant='menu' size='sm'>
+            Settings
+          </Button>
         </Toolbar>
 
             <div className='window-content'>
                         
-                    {/* <Player name={player} color={playerColor} player />
-                    <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} /> */}
+                    <Player name={player} color={playerColor} player />
+                    <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} />
                     <Board 
                         nodes={board} 
                         makeMove={makeMove} 
@@ -341,7 +349,7 @@ const Game = () => {
                     />
             </div>
             </Window>
-            </Draggable>
+            </Draggable> */}
         <div style={{width:"100%"}}></div>
     </Desktop>
     

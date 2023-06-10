@@ -73,7 +73,7 @@ const Piece = ({ name, square, setFromSquare, bounds}) => {
 
     return (
     <Draggable onStart={handleDragStart} onStop={handleDragEnd} bounds={bounds}>
-    <img className={full_name} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,position:'relative',filter:isDragging.filter,cursor:isDragging.cursor}}/>
+    <img className={full_name} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,position:'relative',filter:isDragging.filter,cursor:isDragging.cursor,imageRendering:'crisp-edges'}}/>
     </Draggable>
     );
 };
