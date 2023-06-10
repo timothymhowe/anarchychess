@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react95/clippy": "^1.0.10",
     "@react95/icons": "^2.0.6",
     "chess.js": "^1.0.0-beta.6",
     "howler": "^2.2.3",

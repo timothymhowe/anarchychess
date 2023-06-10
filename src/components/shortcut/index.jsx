@@ -18,9 +18,9 @@ const Shortcut = ({iconName, label}) => {
 
 
     return(
-        <button onClick={handleClick} onDoubleClick={handleDoubleClick} on className='shortcut' >
+        <button onClick={handleClick} onDoubleClick={handleDoubleClick} className='shortcut' >
             <img src={imageUrl} className='shortcut-icon'/>
-            <span className='shortcut-text'>
+            <span className='shortcut-text' style={{fontSize:'14pt'}}>
                 {label}
             </span>
         </button>
