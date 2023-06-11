@@ -269,6 +269,7 @@ const Game = () => {
         const to = square;
         
         // attempt to move
+        if (from != to){
         try {
             chess.move({from, to});
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
@@ -282,7 +283,8 @@ const Game = () => {
             const which_sound = Math.floor(Math.random() * 4)
             sfxs[which_sound].play();
         }
-       
+     
+        }
     };
 
     const setFromSquare = (square) => {
@@ -297,18 +299,19 @@ const Game = () => {
     if (gameOver){
         return <GameOver />;
     }
+
+    
     return (
     <div style={{height:'100vh'}}>
      <GlobalStyles />
 
     <Desktop style={{overflow:"clip"}}>
+
+        {/* TODO: Hard coded the size in each of these, but will make it dynamic once i make font size changeable. */}
         <Icons >
-            <Shortcut iconName={'recycle'}  label={'Recycle Bin'}>
-            </Shortcut>
-
-            <Shortcut iconName={'anarchy'}  label={'Anarchy Chess'}>
-            </Shortcut>
-
+            <Shortcut iconName={'recycle'}  label={'Recycle Bin'} size='48' hasOverlay={false}/>
+            <Shortcut iconName={'mycomputer'} label={'My Computer'} size='48' hasOverlay={false}/>
+            <Shortcut iconName={'anarchy'}  label={'Anarchy Chess'} size='48' hasOverlay={true}/>
         </Icons>
 
         <ChessWindow board={board} makeMove={makeMove} setFromSquare={setFromSquare}>
