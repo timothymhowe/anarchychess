@@ -1,5 +1,7 @@
-import React, {useContext} from "react";
+import React, {useContext, useState, useRef} from "react";
 import PropTypes from 'prop-types';
+
+import Draggable from 'react-draggable'
 
 
 
@@ -15,6 +17,9 @@ import './node-styles.css';
  * @returns 
  */
 const Node = ({node,idx, makeMove, setFromSquare, board}) => {
+
+    const tempRef = useRef(); // for handling the Strict Mode warning
+
     const light = isLightSquare(node.square,idx);
 
     const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
@@ -26,6 +31,8 @@ const Node = ({node,idx, makeMove, setFromSquare, board}) => {
     const isPossibleMove = possibleMoves.includes(node.square);
     const isOpponentMove = opponentMoves.includes(node.square);
 
+    const [dropTarget, setDropTarget] = useState(false)
+
     // checks to see if the player is in check.
     const inCheck = () => {
         const isKing = node.piece.toUpperCase() === 'K';
@@ -34,23 +41,31 @@ const Node = ({node,idx, makeMove, setFromSquare, board}) => {
 
     // implements a handler for the Drop event.
     const handleDrop = () =>{
+        console.log("Dropped on " + node.square)
         try{
             makeMove(node.square);
         } catch (error){
-
+            
         }
+    };
+
+    const handleMouseLeave = (e) =>{
+      e.preventDefault();
+        
     };
 
     const handleDragOver = (e) =>{
         e.preventDefault();
-        console.log("Dragged over " + node.square);
     }
 
     return (
-    <div className={`node ${light ? 'light' : 'dark'}`} style={{position:'relative'}}
+    // <Draggable onStart={()=>false} nodeRef={tempRef}>
+    <div className={`node ${light ? 'light' : 'dark'} `} style={{position:'relative'}}
         
-        onDrop = {handleDrop}
-        onDragOver={(e) => handleDragOver(e)}>
+        onMouseUp = {handleDrop}
+        onMouseOver={(e) => handleDragOver(e)}
+        onMouseLeave={(e) => handleMouseLeave(e)}
+        ref={tempRef}>
 
         <div 
             className={`overlay ${isPossibleMove && 'possible-move'} ${
@@ -60,6 +75,7 @@ const Node = ({node,idx, makeMove, setFromSquare, board}) => {
             <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} boardRef={board} />
         </div>
     </div>
+    // </Draggable>
     );
 };
 

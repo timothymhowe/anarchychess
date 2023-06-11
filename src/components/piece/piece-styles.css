@@ -25,5 +25,22 @@
 }
 
 .piece {
+	position: relative;
+	cursor:grab;
+}
+
+.black {
+	outline-width: thin;
+	outline-color: black;
+}
+
+.piece-dragging{
+	position:relative;
 	padding: 3px 3px 3px 3px;
+	cursor:grabbing;
+	filter:drop-shadow(3px 3px 2px #202020);
+}
+
+.no-pointer-events{
+	pointer-events: none;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Draggable from "react-draggable";
@@ -8,12 +8,12 @@ import Board from '../board'
 
 
 const ChessWindow = ({board, makeMove, setFromSquare}) => {
-
+    const tempRef = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
 
 
     return (
-        <Draggable bounds='parent' handle=".window-title">
-        <Window className="window">
+        <Draggable bounds='parent' handle=".window-title" nodeRef={tempRef}>
+        <Window className="window" ref={tempRef}>
             <WindowHeader className="window-title" style={{height:'30px'}}>
                 <span>
                     <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>

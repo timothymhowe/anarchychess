@@ -165,6 +165,11 @@ const Game = () => {
     const playerName = useRef();
     const GID = useRef();
 
+    // initializes the SFX on render
+    useEffect(() => {
+        initialize_sfx()
+    },[])
+
     useEffect(() => {
         const {id , name} = qs.parse(location.search);
         playerName.current = name;
@@ -255,10 +260,10 @@ const Game = () => {
      */
     const makeMove = (square) => {
 
-        if (openingMove){
-            initialize_sfx()
-            openingMove = false;
-        }
+        // if (openingMove){
+        //     initialize_sfx()
+        //     openingMove = false;
+        // }
 
         const from = fromSquare.current;
         const to = square;
@@ -269,9 +274,11 @@ const Game = () => {
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             setFen(chess.fen());
             socket.emit('move', {GID:GID.current, from, to})
+
         } catch (error){
             //if the move is not valid
-            console.log("oops!")
+            dispatch({type:types.CLEAR_POSSIBLE_MOVES});
+            setFen(chess.fen())
             const which_sound = Math.floor(Math.random() * 4)
             sfxs[which_sound].play();
         }
@@ -307,49 +314,6 @@ const Game = () => {
         <ChessWindow board={board} makeMove={makeMove} setFromSquare={setFromSquare}>
 
         </ChessWindow>
-
-        {/* <Draggable bounds='parent' handle=".window-title">
-        <Window className="window">
-            <WindowHeader className="window-title" style={{height:'30px'}}>
-                <span>
-                    <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>
-                        <img src={new URL(`../../assets/icons/anarchy/16x.png`, import.meta.url).href} 
-                        style={{height:'16px',width:'16px',marginTop:'2px'}}/>
-                    </span>
-                        AnarchyChess.exe
-                </span> 
-                <Button style={{height:'25px',width:'25px',marginTop:'3px'}}select>
-                    <span className="close-icon" />
-                </Button>
-            </WindowHeader>
-
-            <Toolbar>
-          <Button variant='menu' size='sm'>
-            File
-          </Button>
-          <Button variant='menu' size='sm'>
-            Edit
-          </Button>
-          <Button variant='menu' size='sm' disabled>
-            Save
-          </Button>
-          <Button variant='menu' size='sm'>
-            Settings
-          </Button>
-        </Toolbar>
-
-            <div className='window-content'>
-                        
-                    <Player name={player} color={playerColor} player />
-                    <Player name={opponentName} color={playerColor === 'w' ? 'b' : 'w'} />
-                    <Board 
-                        nodes={board} 
-                        makeMove={makeMove} 
-                        setFromSquare={setFromSquare} 
-                    />
-            </div>
-            </Window>
-            </Draggable> */}
         <div style={{width:"100%"}}></div>
     </Desktop>
     

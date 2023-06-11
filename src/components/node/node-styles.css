@@ -4,6 +4,7 @@
     height: auto;
     padding-top:100%;
     user-select: none;
+    pointer-events:all
 }
 
 .overlay{

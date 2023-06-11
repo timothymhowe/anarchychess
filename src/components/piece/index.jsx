@@ -20,12 +20,14 @@ const piece_dict = {
 
 const Piece = ({ name, square, setFromSquare, boardRef}) => {
 
+    const tempRef =   useRef(null); //to stop the STRICT Mode warning about findDOMMode being deprecated.
+
     const full_name = piece_dict[name.toUpperCase()]
     const color = name === name.toUpperCase() ? 'w' : 'b'
     const imageName = color + "_" + full_name;
     const element = useRef();
     
-    const [isDragging, setIsDragging] = useState({status:false,zIndex:1000,filter:'',cursor:'grab',})
+    const [isDragging, setIsDragging] = useState({classNameSuffix:" piece",status:false,zIndex:1000})
     const [dragBoundary, setDragBoundary] = useState({left:0,top:0,right:0,bottom:0})
 
     const [pieceOrigin, setPieceOrigin] = useState({x:0,y:0})
@@ -49,27 +51,25 @@ const Piece = ({ name, square, setFromSquare, boardRef}) => {
     []);
 
     // handles the start up of the drag event
-    const handleDragStart=()=>{
-        
+    const handleDragStart=(e)=>{
+        e.preventDefault();
         
         setFromSquare(square);
-        setIsDragging({status:true, zIndex:isDragging.zIndex + 1,filter:'drop-shadow(3px 3px 2px #202020)',cursor:'grabbing'})
+        setIsDragging({classNameSuffix:" piece-dragging", status:true, zIndex:isDragging.zIndex + 1})
     };
 
     const handleDragEnd = () => {
         element.current.style.display = 'block';
-        setIsDragging({status:false, zIndex:INITIAL_Z,filter:'',cursor:'grab'})
+        setIsDragging({classNameSuffix:" piece",status:false, zIndex:INITIAL_Z,filter:'',cursor:'grab'})
         setPieceOrigin({x:element.current.getBoundingClientRect().x,y:element.current.getBoundingClientRect().y})
     };
 
     return (
-        // <div style={{top:dragBoundary.top, bottom:dragBoundary.bottom,left:dragBoundary.left,right:dragBoundary.right, border:'red dotted thin'}}>
-
-    <Draggable onStart={handleDragStart} onStop={handleDragEnd} bounds={dragBoundary} defaultPosition={pieceOrigin} offsetParent={boardRef.current}>
-    <img className={"piece " + full_name} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,position:'relative',filter:isDragging.filter,cursor:isDragging.cursor,imageRendering:'crisp-edges'}}/>
+        
+    <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} defaultPosition={pieceOrigin} offsetParent={boardRef.current} nodeRef={element} >
+    <img className={(full_name + (color === 'b' ? ' black' : '') + (isDragging.status ? '  no-pointer-events' : '') + isDragging.classNameSuffix )} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,}}/>
     </Draggable>
     
-    // </div>
 
     );
 };
@@ -81,7 +81,14 @@ Piece.prototype = {
     bounds: PropTypes.object,
 };
 
-    // helper function for getting and calculating the bounding box of the chess window
+
+
+/**
+ * helper function for getting and calculating the bounding box of the chess window
+ * @param {*} boardRef 
+ * @param {*} pieceRef 
+ * @returns 
+ */
 function getBounds (boardRef, pieceRef)  {
     const boardBox = boardRef.current.getBoundingClientRect();
     const pieceBox = pieceRef.current.getBoundingClientRect();
