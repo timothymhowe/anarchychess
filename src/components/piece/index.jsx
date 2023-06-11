@@ -43,17 +43,20 @@ const Piece = ({ name, square, setFromSquare, boardRef}) => {
     }
 
 
-
+    let x0, y0 ;
     useEffect(() => {
             const newBounds = getBounds(boardRef,element);
-            setDragBoundary(newBounds);
+            setDragBoundary(newBounds.boundary);
+            x0 = newBounds.init_location.x0;
+            y0 = newBounds.init_location.y0;
     },
     []);
+
+
 
     // handles the start up of the drag event
     const handleDragStart=(e)=>{
         e.preventDefault();
-        
         setFromSquare(square);
         setIsDragging({classNameSuffix:" piece-dragging", status:true, zIndex:isDragging.zIndex + 1})
     };
@@ -61,12 +64,13 @@ const Piece = ({ name, square, setFromSquare, boardRef}) => {
     const handleDragEnd = () => {
         element.current.style.display = 'block';
         setIsDragging({classNameSuffix:" piece",status:false, zIndex:INITIAL_Z,filter:'',cursor:'grab'})
-        setPieceOrigin({x:element.current.getBoundingClientRect().x,y:element.current.getBoundingClientRect().y})
+        // setPieceOrigin({x:element.current.getBoundingClientRect().x,y:element.current.getBoundingClientRect().y})
+
     };
 
     return (
         
-    <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} defaultPosition={pieceOrigin} offsetParent={boardRef.current} nodeRef={element} >
+    <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} position={!isDragging.status ? {x0,y0} : undefined} offsetParent={boardRef.current} nodeRef={element} >
     <img className={(full_name + (color === 'b' ? ' black' : '') + (isDragging.status ? '  no-pointer-events' : '') + isDragging.classNameSuffix )} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,}}/>
     </Draggable>
     
@@ -97,7 +101,7 @@ function getBounds (boardRef, pieceRef)  {
     top = boardBox.top - pieceBox.top;
     right = left + boardBox.width - pieceBox.width;
     bottom = top + boardBox.height - pieceBox.height;
-    return ({left:left, top:top, right:right, bottom:bottom})
+    return ({boundary:{left:left, top:top, right:right, bottom:bottom},init_location:{x0:pieceBox.x, y0:pieceBox.y}})
 }
 
 
