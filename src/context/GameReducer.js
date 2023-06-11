@@ -1,7 +1,18 @@
 import {types} from './actions';
 
 const getPositions=(moves)=> {
+    console.log(moves)
     return moves.map((move)=> {
+        move = move.replace("#",'')
+        move = move.replace("+",'')
+        // if castling is possible
+        if (move.indexOf("O") > -1 ){
+            return move;
+        } 
+        // if the move involves promotion
+        if (move.indexOf('=') > -1){
+            return move;
+        }
         const n = move.length;
         return move.substring(n-2);
     })
