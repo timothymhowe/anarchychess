@@ -1,15 +1,12 @@
 import React, {useContext} from "react";
 import PropTypes from 'prop-types';
 
-import {DndProvider} from 'react-dnd'
-import {HTML5Backend} from 'react-dnd-html5-backend'
 
 
 import { isLightSquare, Node as BoardNode } from '../../functions'
 import Piece from '../piece';
 import {GameContext} from '../../context/GameContext';
 
-// import stylesheet
 import './node-styles.css';
 
 /**
@@ -17,7 +14,7 @@ import './node-styles.css';
  * @param {*} param0 
  * @returns 
  */
-const Node = ({node,idx, makeMove, setFromSquare, bounds}) => {
+const Node = ({node,idx, makeMove, setFromSquare, board}) => {
     const light = isLightSquare(node.square,idx);
 
     const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
@@ -37,13 +34,16 @@ const Node = ({node,idx, makeMove, setFromSquare, bounds}) => {
 
     // implements a handler for the Drop event.
     const handleDrop = () =>{
-        makeMove(node.square)
+        try{
+            makeMove(node.square);
+        } catch (error){
+
+        }
     };
 
     const handleDragOver = (e) =>{
-        e.preventDefault() 
-        this.style.border={}
-        console.log("Dragged over " + node.square)
+        e.preventDefault();
+        console.log("Dragged over " + node.square);
     }
 
     return (
@@ -57,7 +57,7 @@ const Node = ({node,idx, makeMove, setFromSquare, bounds}) => {
                 inCheck() && 'check'
             } ${isOpponentMove && 'opponent-move'}`}     
         >
-            <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} />
+            <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} boardRef={board} />
         </div>
     </div>
     );

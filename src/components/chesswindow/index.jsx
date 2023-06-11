@@ -18,7 +18,7 @@ const ChessWindow = ({board, makeMove, setFromSquare}) => {
                 <span>
                     <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>
                         <img src={new URL(`../../assets/icons/anarchy/16x.png`, import.meta.url).href} 
-                        style={{height:'16px',width:'16px',marginTop:'2px'}}/>
+                        style={{height:'16px',width:'16px',marginTop:'2px', imageRendering:'pixelated'}}/>
                     </span>
                         AnarchyChess.exe
                 </span> 

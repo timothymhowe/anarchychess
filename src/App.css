@@ -10,3 +10,7 @@ body {
 	font-family: "Jokerman","Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
 
 }
+
+img {
+	image-rendering: pixelated;
+}

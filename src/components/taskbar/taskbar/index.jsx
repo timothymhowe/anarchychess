@@ -7,7 +7,7 @@ import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset
 import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
 import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
 
-
+let appButtons = '';
 
 const Taskbar = ({}) => {
     const [open,setOpen] = useState(false);
@@ -17,7 +17,7 @@ const Taskbar = ({}) => {
     let imageUrl;
     try {
         // console.log(`/assets/pieces/${imageName}.png`)
-        imageUrl = new URL(`../../assets/icons/win/start/22x.png`, import.meta.url).href;
+        imageUrl = new URL(`../../../assets/icons/win/start/22x.png`, import.meta.url).href;
     } catch (error) {
         console.log(error)
     } 
@@ -69,7 +69,7 @@ const Taskbar = ({}) => {
 
                 {appButtons}
                   
-                <Button> <img src={new URL('../../assets/icons/').href}/> AnarchyChess.exe</Button>
+                <Button active> <img src={new URL('../../../assets/icons/anarchy/16x.png', import.meta.url).href} style={{paddingRight:'3px', imageRendering:'pixelated'}}/> AnarchyChess.exe</Button>
 
 
         {/* The Clock on the bottom right of the taskbar */}

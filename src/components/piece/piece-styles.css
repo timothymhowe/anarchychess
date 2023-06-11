@@ -23,3 +23,7 @@
  width: 58%;
  height: 65%;
 }
+
+.piece {
+	padding: 3px 3px 3px 3px;
+}
