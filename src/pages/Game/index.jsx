@@ -269,7 +269,7 @@ const Game = () => {
         const to = square;
         
         // attempt to move
-        if (from != to){
+        
         try {
             chess.move({from, to});
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
@@ -279,12 +279,13 @@ const Game = () => {
         } catch (error){
             //if the move is not valid
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
-            setFen(chess.fen())
+            if (from != to){
             const which_sound = Math.floor(Math.random() * 4)
             sfxs[which_sound].play();
+            }
         }
      
-        }
+        
     };
 
     const setFromSquare = (square) => {

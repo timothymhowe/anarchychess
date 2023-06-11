@@ -17,6 +17,7 @@
     justify-content:center;
     align-items:center;
     text-align: center;
+    filter:hue-rotate(50deg)
 }
 
 .light{
@@ -30,13 +31,34 @@
 }
 
 .possible-move{
-    width:33%;
-    height:33%;
-    margin: 33%;
-    border-radius: 50%;
-    background-image: linear-gradient(120deg, #1b1a19 100%, #706f6f 0%);
-    opacity: 0.2;
+
+    /* filter: brightness(50%)  sepia(100%) hue-rotate(330deg) saturate(10000%) saturate(50%); */
+    filter: saturate(75%);
+   
 }
+/*.possible-move::after{
+    content: url('/ebound-battle.gif');
+    mix-blend-mode: multiply;
+    content:radial-gradient(circle at center,#555 2%, #666 50%, #fff 100%);
+    position: absolute;
+    overflow: hidden;
+    height: 25%;
+    width: 25%;
+    border-radius: 50%;
+    
+} */
+
+.possible-move::before{
+    position: absolute;
+    
+    height:90%;
+    width: 90%;
+    overflow:clip;
+    content: url('/ebound-battle.gif');
+    border-radius: 5%;
+
+}
+
 
 .check {
     background-image: linear-gradient(
@@ -46,5 +68,9 @@
         #f8444d 60%,
         #eb7b6a 100%
     );
+    
+}
+
+.check::backdrop{
     
 }

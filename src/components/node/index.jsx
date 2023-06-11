@@ -68,9 +68,11 @@ const Node = ({node,idx, makeMove, setFromSquare, board}) => {
         ref={tempRef}>
 
         <div 
-            className={`overlay ${isPossibleMove && 'possible-move'} ${
-                inCheck() && 'check'
-            } ${isOpponentMove && 'opponent-move'}`}     
+            className={
+                `overlay 
+                ${isPossibleMove && 'possible-move'} 
+                ${ inCheck() && 'check'} 
+                ${isOpponentMove && 'opponent-move'}`}     
         >
             <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} boardRef={board} />
         </div>

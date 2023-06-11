@@ -26,17 +26,16 @@
 
 
 .piece {
-	position: relative;
+
 	cursor:grab;
 	max-width:82% ; /* these are being used to stop the icon from blowing up to full size on drop for some reason */
-	max-height:82%; /* TODO: Fix the underlying issue here */
+	max-height:84%; /* TODO: Fix the underlying issue here */
+	
 }
 
-.black {
-	outline-width: thin;
-	outline-color: black;
-}
+/* .black {
 
+} */
 .piece-dragging{
 	position:relative;
 	padding: 3px 3px 3px 3px;
