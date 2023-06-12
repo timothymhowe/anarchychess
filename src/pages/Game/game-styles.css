@@ -1,7 +1,6 @@
 .game{
     width: 100vw;
     height: calc(100%-47px);
-
     /* background: url(../../assets/background.jpg) center center/cover; */
     background-color: #008080;
     overflow: clip;
@@ -9,7 +8,6 @@
     display: inline-block;
     text-align: center;
 
-    z-index: 1;
 }
 
 .close-icon {
@@ -46,7 +44,6 @@
     align-self: center;
     justify-content: space-between;
     user-select: none;
-    z-index: 10;
 }
 
 .window{
@@ -55,13 +52,11 @@
     padding-bottom: 1rem;
     display: inline-block;
     text-align: center;
-    z-index: 10;
 }
 
 .start-head{
   top: auto;
   bottom: 0px;
-  z-index: 999999;
   align-items: center;
 
 }

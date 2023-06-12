@@ -70,8 +70,9 @@ const Piece = ({ name, square, setFromSquare, boardRef}) => {
 
     return (
         
-    <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} position={!isDragging.status ? {x0,y0} : undefined} offsetParent={boardRef.current} nodeRef={element} >
-    <img className={(full_name + (color === 'b' ? ' black' : '') + (isDragging.status ? '  no-pointer-events' : '') + isDragging.classNameSuffix )} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex,}}/>
+    // <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} position={!isDragging.status ? {x0,y0} : {undefined,undefined}} offsetParent={boardRef.current} nodeRef={element} >
+    <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary}  offsetParent={boardRef.current} nodeRef={element} >
+    <img className={(full_name + (color === 'b' ? ' black' : '') + (isDragging.status ? '  no-pointer-events' : '') + isDragging.classNameSuffix )} src={imageUrl} alt="" ref={element} draggable={false} style={{zIndex:isDragging.zIndex}}/>
     </Draggable>
     
 
