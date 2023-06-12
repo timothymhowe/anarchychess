@@ -48,6 +48,7 @@
 } */
 
 .possible-move::before{
+    position: absolute;
     height:90%;
     width: 90%;
     overflow:hidden;
