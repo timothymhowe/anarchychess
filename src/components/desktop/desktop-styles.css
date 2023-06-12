@@ -4,8 +4,7 @@
     height: calc(100vh - 47px);
     overflow: clip;
     position: relative;
-    z-index: 1;
+    z-index: 0;
     padding: 2px,2px,2px,2px;
 
-    z-index: 1;
 }
