@@ -5,6 +5,8 @@ import './piece-styles.css';
 
 import Draggable from 'react-draggable';
 
+
+
 const INITIAL_Z = 1000;
 
 const piece_dict = {
