@@ -1,4 +1,4 @@
-import {types} from './actions';
+import {types} from './game_actions';
 
 const getPositions=(moves)=> {
     console.log(moves)
