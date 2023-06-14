@@ -19,7 +19,7 @@ const TaskButton = ({name}) => {
 
     }
 
-    return( <Button onClick={handleClick} active:true> 
+    return( <Button onClick={handleClick} active={true} > 
     <img src={new URL(`../../../assets/icons/${name}/16x.png`, import.meta.url).href} style={{paddingRight:'3px', imageRendering:'pixelated'}}/> {app_name}
     </Button>)
     

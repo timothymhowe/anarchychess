@@ -26,7 +26,7 @@ const GameOver = () => {
                 </p>
             )}
             <img
-                src={require('/assets/play-again.jpg')}
+                src={'/assets/play-again.jpg'}
                 alt="play again"
                 className="img"
             />
@@ -36,7 +36,7 @@ const GameOver = () => {
     const Image = () => (
         <img
             className="bg-img"
-            src={require('/assets/game-over.jpg')}
+            src={'/assets/game-over.jpg'}
             alt="game over"
         />
     );

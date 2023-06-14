@@ -14,7 +14,7 @@ import Shortcut from '../../components/shortcut'
 import Draggable from 'react-draggable'
 
 import {GameContext} from '../../context/GameContext';
-import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
+import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/game_actions';
 import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
@@ -212,6 +212,7 @@ const Game = () => {
             dispatch(setOpponent(opponent));
         });
 
+        // sets up listener for when the network opponent makes a move
         socket.on('opponentMove',({from,to}) => {
             chess.move({ from, to });
             setFen(chess.fen());

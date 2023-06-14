@@ -4,11 +4,15 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Draggable from "react-draggable";
 import PropTypes from 'prop-types'
 
-import Board from '../board'
+import './chesswindow-styles.css';
+
+import Board from '../board';
 
 
 const ChessWindow = ({board, makeMove, setFromSquare}) => {
     const tempRef = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    const tempRef2 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    const tempRef3 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
 
 
     return (
@@ -22,9 +26,21 @@ const ChessWindow = ({board, makeMove, setFromSquare}) => {
                     </span>
                         AnarchyChess.exe
                 </span> 
-                <Button style={{height:'25px',width:'25px',marginTop:'3px'}}select>
-                    <span className="close-icon" />
-                </Button>
+                <div className="window-button-panel">
+
+
+                    {/* Trying to get the buttons to not be able to drag the window around. */}
+                    <Draggable onStart={()=>false} nodeRef={tempRef2}>
+                      <Button style={{height:'25px',width:'25px',marginTop:'3px', marginRight:'2px'}} className="window-button" ref={tempRef2} select>
+                          <span className="minimize-icon" />
+                      </Button>
+                    </Draggable>
+                    <Draggable onStart={()=>false} nodeRef={tempRef3}>
+                      <Button style={{height:'25px',width:'25px',marginTop:'3px'}} className="window-button" ref={tempRef3} select>
+                          <span className="close-icon" />
+                      </Button>
+                    </Draggable>
+                </div>
             </WindowHeader>
 
             <Toolbar>
