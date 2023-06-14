@@ -40,8 +40,8 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
     };
 
     // implements a handler for the Drop event.
-    const handleDrop = () => {
-        console.log("Dropped on " + node.square)
+    const handleClick = () => {
+        console.log("Clicked on " + node.square)
         try {
             makeMove(node.square);
         } catch (error) {
@@ -61,7 +61,7 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
     return (
         <div className={`node ${light ? 'light' : 'dark'} `} style={{ position: 'relative' }}
 
-            onMouseUp={handleDrop}
+            onMouseClick={handleClick}
             onMouseOver={(e) => handleDragOver(e)}
             onMouseLeave={(e) => handleMouseLeave(e)}
             ref={tempRef}>

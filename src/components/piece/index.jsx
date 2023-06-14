@@ -33,10 +33,8 @@ const Piece = ({ name, square, setFromSquare, boardRef }) => {
     const imageName = color + "_" + full_name;
     const element = useRef();
 
-    const [isDragging, setIsDragging] = useState({ classNameSuffix: " piece", status: false, zIndex: 1000 })
-    const [dragBoundary, setDragBoundary] = useState({ left: 0, top: 0, right: 0, bottom: 0 })
+    const [isSelected, setIsSelected] = useState({ classNameSuffix: " piece", status: false})
 
-    const [pieceOrigin, setPieceOrigin] = useState({ x: 0, y: 0 })
 
 
     let imageUrl;
@@ -48,58 +46,22 @@ const Piece = ({ name, square, setFromSquare, boardRef }) => {
         console.log(error)
     }
 
-    const [gridHeight, setGridHeight] = useState(0);
-    const [gridWidth, setGridWidth] = useState(0);
 
-
-    let x0, y0;
-    useEffect(() => {
-        const newBounds = getBounds(boardRef, element);
-        setDragBoundary(newBounds.boundary);
-        x0 = newBounds.init_location.x0;
-        y0 = newBounds.init_location.y0;
-    },
-        []);
-
-
-    let boardHeight, boardWidth;
-    useEffect(() => {
-        if (!boardRef?.current?.clientHeight) {
-            return;
-        }
-        setGridHeight(boardRef?.current?.clientHeight)
-    }, [boardRef?.current?.clientHeight]);
-
-
-    useEffect(() => {
-        if (!boardRef?.current?.clientWidth) {
-            return;
-        }
-        setGridWidth(boardRef?.current?.clientWidth)
-    }, [boardRef?.current?.clientWidth]);
 
     // handles the start up of the drag event
-    const handleDragStart = (e) => {
+    const handleClick = (e) => {
         e.preventDefault();
+        console.log("Picked up a " + full_name + " on " + square + "." )
         setFromSquare(square);
-        setIsDragging({ classNameSuffix: " piece-dragging", status: true, zIndex: isDragging.zIndex + 1 })
+        setIsSelected({ classNameSuffix: " piece-clicked", status: true })
     };
 
-    const handleDragEnd = () => {
-        element.current.style.display = 'block';
-        setIsDragging({ classNameSuffix: " piece", status: false, zIndex: INITIAL_Z })
-        // setPieceOrigin({x:element.current.getBoundingClientRect().x,y:element.current.getBoundingClientRect().y})
 
-    };
+
+ 
 
     return (
-
-        // <Draggable onStart={(e)=>handleDragStart(e) } onStop={handleDragEnd} bounds={dragBoundary} position={!isDragging.status ? {x0,y0} : {undefined,undefined}} offsetParent={boardRef.current} nodeRef={element} >
-        <Draggable onStart={(e) => handleDragStart(e)} onStop={handleDragEnd} bounds={dragBoundary} offsetParent={boardRef.current} nodeRef={element} grid={[(gridHeight / (8 * 4)), (gridWidth / (8*4))]} >
-            <img className={(full_name + (color === 'b' ? ' black' : '') + (isDragging.status ? '  no-pointer-events' : '') + isDragging.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false} style={{ zIndex: isDragging.zIndex }} />
-        </Draggable>
-
-
+    <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + (isSelected.status ? '  no-pointer-events' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false}  />
     );
 };
 
