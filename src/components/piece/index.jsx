@@ -24,7 +24,7 @@ const piece_dict = {
  * @param {*} param0 
  * @returns 
  */
-const Piece = ({ name, square, setFromSquare, boardRef }) => {
+const Piece = ({ name, square, setFromSquare, boardRef, setIsMoving }) => {
 
     const tempRef = useRef(null); //to stop the STRICT Mode warning about findDOMMode being deprecated.
 
@@ -54,6 +54,7 @@ const Piece = ({ name, square, setFromSquare, boardRef }) => {
         console.log("Picked up a " + full_name + " on " + square + "." )
         setFromSquare(square);
         setIsSelected({ classNameSuffix: " piece-clicked", status: true })
+        setIsMoving(true);
     };
 
 
@@ -61,7 +62,7 @@ const Piece = ({ name, square, setFromSquare, boardRef }) => {
  
 
     return (
-    <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + (isSelected.status ? '  no-pointer-events' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false}  />
+    <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false}  />
     );
 };
 

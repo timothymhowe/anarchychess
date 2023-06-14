@@ -24,6 +24,8 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
     const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
 
+    const [isMoving, setIsMoving] = useState(false)
+
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
 
@@ -31,7 +33,6 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
     const isPossibleMove = possibleMoves.includes(node.square);
     const isOpponentMove = opponentMoves.includes(node.square);
 
-    const [dropTarget, setDropTarget] = useState(false)
 
     // checks to see if the player is in check.
     const inCheck = () => {
@@ -41,29 +42,25 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
     // implements a handler for the Drop event.
     const handleClick = () => {
-        console.log("Clicked on " + node.square)
+
+        if (!isMoving){
+
+        }
+        console.log("Attempted to move to " + node.square)
         try {
             makeMove(node.square);
         } catch (error) {
-
+            console.log("Lol dummy, you can't move that piece there.")
         }
     };
 
-    const handleMouseLeave = (e) => {
-        e.preventDefault();
 
-    };
 
-    const handleDragOver = (e) => {
-        e.preventDefault();
-    }
-
+ 
     return (
         <div className={`node ${light ? 'light' : 'dark'} `} style={{ position: 'relative' }}
 
-            onMouseClick={handleClick}
-            onMouseOver={(e) => handleDragOver(e)}
-            onMouseLeave={(e) => handleMouseLeave(e)}
+            onClick={handleClick}
             ref={tempRef}>
 
             <div
@@ -73,7 +70,7 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
                 ${inCheck() && 'check'} 
                 ${isOpponentMove && 'opponent-move'}`}
             >
-                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} boardRef={board} />
+                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} setIsMoving={setIsMoving} />
             </div>
         </div>
     );
