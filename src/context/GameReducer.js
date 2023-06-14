@@ -1,7 +1,6 @@
 import {types} from './game_actions';
 
 const getPositions=(moves)=> {
-    console.log(moves)
     return moves.map((move)=> {
         move = move.replace("#",'')
         move = move.replace("+",'')

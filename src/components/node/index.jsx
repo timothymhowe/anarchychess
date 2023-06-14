@@ -1,10 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 import PropTypes from 'prop-types';
 
-import Draggable from 'react-draggable'
-
-
-
 import { isLightSquare, Node as BoardNode } from '../../functions'
 import Piece from '../piece';
 import { GameContext } from '../../context/GameContext';
@@ -22,9 +18,8 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
     const light = isLightSquare(node.square, idx);
 
-    const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
+    const { possibleMoves, turn, check, opponentMoves, isMoving } = useContext(GameContext);
 
-    const [isMoving, setIsMoving] = useState(false)
 
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
@@ -43,11 +38,9 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
     // implements a handler for the Drop event.
     const handleClick = () => {
 
-        if (!isMoving){
-
-        }
-        console.log("Attempted to move to " + node.square)
         try {
+            
+            console.log(possibleMoves);
             makeMove(node.square);
         } catch (error) {
             console.log("Lol dummy, you can't move that piece there.")
@@ -56,7 +49,7 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
 
 
- 
+
     return (
         <div className={`node ${light ? 'light' : 'dark'} `} style={{ position: 'relative' }}
 
@@ -70,8 +63,8 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
                 ${inCheck() && 'check'} 
                 ${isOpponentMove && 'opponent-move'}`}
             >
-                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} setIsMoving={setIsMoving} />
-            </div>
+                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} isMoving={isMoving} />
+            </div>s
         </div>
     );
 };

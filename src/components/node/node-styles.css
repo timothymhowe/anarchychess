@@ -47,13 +47,14 @@
     
 } */
 
-.possible-move::before {
+.possible-move::after {
     position: absolute;
     height: 90%;
     width: 90%;
     overflow: hidden;
     content: url('/ebound-battle.gif');
     border-radius: 15%;
+    z-index: 10;
 
 }
 

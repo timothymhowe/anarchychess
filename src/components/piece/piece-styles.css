@@ -29,6 +29,8 @@
 	cursor:grab;
 	max-width:82% ; /* these are being used to stop the icon from blowing up to full size on drop for some reason */
 	max-height:84%; /* TODO: Fix the underlying issue here */
+
+	z-index: 1;
 	
 }
 
@@ -36,11 +38,11 @@
 
 } */
 
-.piece-dragging{
+.piece-clicked{
 	position:relative;
 	padding: 3px 3px 3px 3px;
 	cursor:grabbing;
-	filter:drop-shadow(3px 3px 2px #202020);
+	filter:drop-shadow(0px 0px 15px #ff00a2);
 }
 
 .no-pointer-events{

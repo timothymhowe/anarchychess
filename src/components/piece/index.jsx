@@ -24,7 +24,7 @@ const piece_dict = {
  * @param {*} param0 
  * @returns 
  */
-const Piece = ({ name, square, setFromSquare, boardRef, setIsMoving }) => {
+const Piece = ({ name, square, setFromSquare, boardRef, isMoving }) => {
 
     const tempRef = useRef(null); //to stop the STRICT Mode warning about findDOMMode being deprecated.
 
@@ -34,7 +34,7 @@ const Piece = ({ name, square, setFromSquare, boardRef, setIsMoving }) => {
     const element = useRef();
 
     const [isSelected, setIsSelected] = useState({ classNameSuffix: " piece", status: false})
-
+    
 
 
     let imageUrl;
@@ -50,19 +50,19 @@ const Piece = ({ name, square, setFromSquare, boardRef, setIsMoving }) => {
 
     // handles the start up of the drag event
     const handleClick = (e) => {
-        e.preventDefault();
         console.log("Picked up a " + full_name + " on " + square + "." )
         setFromSquare(square);
+
+        if (!isSelected){
         setIsSelected({ classNameSuffix: " piece-clicked", status: true })
-        setIsMoving(true);
+        } else {
+            setIsSelected({classNameSuffix:" piece ", status:false})
+        }
     };
 
-
-
- 
-
     return (
-    <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false}  />
+    // <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false}  />
+    <img onClick={(e) => handleClick(e)} className={(full_name + (color === 'b' ? ' black' : '') + isSelected.classNameSuffix)} src={imageUrl} alt="" ref={element} draggable={false} style={{pointerEvents:(isMoving ? 'none' : 'auto')}} />
     );
 };
 
@@ -74,23 +74,6 @@ Piece.prototype = {
 };
 
 
-
-/**
- * helper function for getting and calculating the bounding box of the chess window
- * @param {*} boardRef 
- * @param {*} pieceRef 
- * @returns 
- */
-function getBounds(boardRef, pieceRef) {
-    const boardBox = boardRef.current.getBoundingClientRect();
-    const pieceBox = pieceRef.current.getBoundingClientRect();
-    let left, top, right, bottom;
-    left = boardBox.left - pieceBox.left;
-    top = boardBox.top - pieceBox.top;
-    right = left + boardBox.width - pieceBox.width;
-    bottom = top + boardBox.height - pieceBox.height;
-    return ({ boundary: { left: left, top: top, right: right, bottom: bottom }, init_location: { x0: pieceBox.x, y0: pieceBox.y } })
-}
 
 
 

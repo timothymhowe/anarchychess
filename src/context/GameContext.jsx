@@ -12,6 +12,7 @@ const initialState = {
     opponentName: '',
     message: '',
     opponentMoves: [],
+    isMoving:false,
 
 };
 
