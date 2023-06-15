@@ -36,6 +36,10 @@ const getCaptures=(moves) => {
     const captures =  moves.map((move)=>{
         move = move.replace("#",'')
         move = move.replace("+",'')
+        
+        if (move.indexOf('=') >-1){
+            move = move.slice(0,-2);                
+        }
 
          if (move.indexOf("x") > -1){
             return move.substring(move.length-2);   

@@ -46,9 +46,9 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
      
         if (isPossiblePromotion) {
             makeMove(node.square, the_promo)
-        }
+        } else {
         makeMove(node.square);
-      
+        }
     };
 
 
