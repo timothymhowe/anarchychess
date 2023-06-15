@@ -76,7 +76,8 @@ const getPromotions = (moves) => {
  */
 const getCastles=(moves,turn) => {
     const castles = moves.map((move) => {
-        let square = ''
+        let square = '';
+
         if (move == 'O-O'){
             if (turn == 'w'){
                 square = 'g1'
@@ -85,9 +86,9 @@ const getCastles=(moves,turn) => {
             }
         } else if (move == "O-O-O") {
             if (turn == 'w') {
-                move = 'c1'
+                square = 'c1'
             } else {
-                move = 'c8'
+                square = 'c8'
             }
         }
         return square;
