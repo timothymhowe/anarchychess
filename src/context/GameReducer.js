@@ -58,8 +58,9 @@ const getPromotions = (moves) => {
     const promotions = moves.map((move)=>{
         move = move.replace("#",'');
         move = move.replace("+",'');
+        
+        
         if (move.indexOf("=") > -1){
-
             move = move.replace("=",'');
             move = move.slice(0,-1);
             console.log(move)
@@ -81,6 +82,9 @@ const getPromotions = (moves) => {
 const getCastles=(moves,turn) => {
     const castles = moves.map((move) => {
         let square = '';
+        move = move.replace("#",'');
+        move = move.replace("+",'');
+
 
         if (move == 'O-O'){
             if (turn == 'w'){
