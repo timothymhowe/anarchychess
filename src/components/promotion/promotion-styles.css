@@ -1,0 +1,30 @@
+.promo-piece{
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.promo-menu{
+    min-height: 100px;
+}
+
+.promotion-modal{
+    position: absolute;
+    top:100px;
+    left:100px;
+    border-style: none;
+    
+}
+.promotion-modal-overlay{
+    height:275px;
+    width:75px;
+    border-style: none;
+
+}
+
+.promote-button{
+    height: 100%;
+    
+}

@@ -5,6 +5,8 @@ import { isLightSquare, Node as BoardNode } from '../../functions'
 import Piece from '../piece';
 import { GameContext } from '../../context/GameContext';
 
+import PromotionWindow from "../promotion";
+
 import './node-styles.css';
 
 /**
@@ -12,7 +14,7 @@ import './node-styles.css';
  * @param {*} param0 
  * @returns 
  */
-const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
+const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
 
     const tempRef = useRef(); // for handling the Strict Mode warning
 
@@ -32,6 +34,9 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
 
 
+
+
+
     // checks to see if the player is in check.
     const inCheck = () => {
         const isKing = node.piece.toUpperCase() === 'K';
@@ -40,13 +45,9 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
     // implements a handler for the RightClick event.
     const handleRightClick = (e) => {
-        const the_promo = 'q'
-        e.preventDefault();
-        
-     
+        e.preventDefault();     
         if (isPossiblePromotion) {
-            
-            makeMove(node.square, the_promo);
+            setPromote(node.square)    
         } else {
         makeMove(node.square);
         }

@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Draggable from "react-draggable";
@@ -7,17 +7,24 @@ import PropTypes from 'prop-types'
 import './chesswindow-styles.css';
 
 import Board from '../board';
+import ReactModal from "react-modal";
+import PromotionWindow from "../promotion";
 
 
 const ChessWindow = ({board, makeMove, setFromSquare}) => {
     const tempRef = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
     const tempRef2 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
     const tempRef3 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    
+    const modalRef = useRef(); 
 
+
+
+    const [promote, setPromote] = useState('');
 
     return (
         <Draggable bounds='parent' handle=".window-title" nodeRef={tempRef}>
-        <Window className="window" ref={tempRef}>
+        <Window className="window" ref={tempRef} nodeRef={modalRef}>
             <WindowHeader className="window-title" style={{height:'30px'}}>
                 <span>
                     <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>
@@ -66,7 +73,9 @@ const ChessWindow = ({board, makeMove, setFromSquare}) => {
                         nodes={board} 
                         makeMove={makeMove} 
                         setFromSquare={setFromSquare} 
+                        setPromote = {setPromote}
                     />
+                    <PromotionWindow makeMove={makeMove} promote={promote} boardRef={tempRef} />
             </div>
             </Window>
             </Draggable>
