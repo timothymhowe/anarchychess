@@ -3,6 +3,9 @@ import GameReducer from'./GameReducer';
 
 const initialState = {
     possibleMoves: [],
+    possibleCaptures: [],
+    possiblePromotions: [],
+    possibleCastles: [],
     turn: 'w',
     check: false,
     gameOver: false,
@@ -12,7 +15,6 @@ const initialState = {
     opponentName: '',
     message: '',
     opponentMoves: [],
-    isMoving:false,
 
 };
 

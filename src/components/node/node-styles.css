@@ -31,7 +31,7 @@
 
 /* .possible-move{
 
-    filter: brightness(50%)  sepia(100%) hue-rotate(330deg) saturate(10000%) saturate(50%);
+    background-color: #f8444d;
     
 } */
 
@@ -48,13 +48,24 @@
 } */
 
 .possible-move::after {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: thick;
+    border-color: black;
+    overflow: hidden;
+    width:30%;
+    height:30%;
+    content:'';
+    opacity: 80%;
+}
+
+.possible-capture::after {
     position: absolute;
     height: 90%;
     width: 90%;
     overflow: hidden;
     content: url('/ebound-battle.gif');
     border-radius: 15%;
-    z-index: 10;
 
 }
 

@@ -1,20 +1,99 @@
+import { calcScData } from '@react95/icons';
 import {types} from './game_actions';
 
 const getPositions=(moves)=> {
-    return moves.map((move)=> {
+    
+    const positions =  moves.map((move)=> {
+        
         move = move.replace("#",'')
         move = move.replace("+",'')
+
+        if (move.indexOf('x') > -1){
+            return '';
+        }
         // if castling is possible
         if (move.indexOf("O") > -1 ){
-            return move;
+            console.log("Castle?")
+            return '';
         } 
         // if the move involves promotion
         if (move.indexOf('=') > -1){
-            return move;
+            return '';
         }
         const n = move.length;
         return move.substring(n-2);
     })
+
+    return positions.filter(move => move !== '');
+}
+
+/**
+ * Helper function for game reducer that gets all possible captures when a piece is selected
+ * @param {*} moves 
+ * @returns 
+ */
+const getCaptures=(moves) => {
+    const captures =  moves.map((move)=>{
+        move = move.replace("#",'')
+        move = move.replace("+",'')
+
+         if (move.indexOf("x") > -1){
+            return move.substring(move.length-2);   
+         } 
+        return ''
+        })
+    return (captures.filter(move => move!== ''))
+}
+
+/**
+ * Helper function for game reducer that gets all possible promotions when a piece is selected
+ * @param {*} moves 
+ * @returns 
+ */
+const getPromotions = (moves) => {
+    const promotions = moves.map((move)=>{
+        move = move.replace("#",'');
+        move = move.replace("+",'');
+        if (move.indexOf("=") > -1){
+
+            move = move.replace("=",'');
+            move = move.slice(0,-1);
+            console.log(move)
+            return move.substring(move.length-2);   
+         }
+         
+        
+         return ''
+        })
+    return (promotions.filter(move => move !== ''))
+}
+
+/**
+ * Function that determines what square would be the target of a castle if it appears in the list of possible moves
+ * @param {*} moves 
+ * @param {*} turn -- the players turn
+ * @returns 
+ */
+const getCastles=(moves,turn) => {
+    const castles = moves.map((move) => {
+        let square = ''
+        if (move == 'O-O'){
+            if (turn == 'w'){
+                square = 'g1'
+            } else {
+                square = 'g8'
+            }
+        } else if (move == "O-O-O") {
+            if (turn == 'w') {
+                move = 'c1'
+            } else {
+                move = 'c8'
+            }
+        }
+        return square;
+    })
+
+    return (castles.filter(move => move !== ''));
 }
 
 const GameReducer = (state, action) => {
@@ -23,12 +102,18 @@ const GameReducer = (state, action) => {
             return {
                 ...state,
                 possibleMoves: getPositions(action.moves),
+                possibleCaptures: getCaptures(action.moves),
+                possiblePromotions: getPromotions(action.moves),
+                possibleCastles: getCastles(action.moves, state.turn)
             };
     
         case types.CLEAR_POSSIBLE_MOVES:
             return{
                 ...state,
                 possibleMoves:[],
+                possibleCaptures: [],
+                possiblePromotions: [],
+                possibleCastles: [],
             };
         case types.SET_TURN:
             return { 

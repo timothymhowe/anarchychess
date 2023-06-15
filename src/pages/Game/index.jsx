@@ -165,7 +165,7 @@ const Game = () => {
     const playerName = useRef();
     const GID = useRef();
 
-    // initializes the SFX on render
+    // initializes the SFX on first render
     useEffect(() => {
         initialize_sfx()
     },[])
@@ -259,26 +259,34 @@ const Game = () => {
      *  Function for making a move with a piece, validated by `chess.js`
      * @param {*} square 
      */
-    const makeMove = (square) => {
+    const makeMove = (square, promotion) => {
 
         // if (openingMove){
         //     initialize_sfx()
         //     openingMove = false;
         // }
 
+        const prom = promotion
         const from = fromSquare.current;
         const to = square;
+        let move;
+        if (promotion){
+            move={from:from,to:to,promotion:prom}
+        } else {
+            move = {from:from,to:to}
+        }
         
         // attempt to move
         
         try {
-            chess.move({from, to});
+            chess.move(move);
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             setFen(chess.fen());
             socket.emit('move', {GID:GID.current, from, to})
 
         } catch (error){
             //if the move is not valid
+            console.log(error)
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             if (from != to){
             const which_sound = Math.floor(Math.random() * 4)

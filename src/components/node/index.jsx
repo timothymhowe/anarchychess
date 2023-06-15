@@ -18,15 +18,18 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
 
     const light = isLightSquare(node.square, idx);
 
-    const { possibleMoves, turn, check, opponentMoves, isMoving } = useContext(GameContext);
+    const { possibleMoves, possibleCaptures, possiblePromotions, possibleCastles, turn, check, opponentMoves } = useContext(GameContext);
 
 
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
 
     // determines if the node is a valid move
-    const isPossibleMove = possibleMoves.includes(node.square);
-    const isOpponentMove = opponentMoves.includes(node.square);
+    const isPossibleMove = possibleMoves.includes(node.square) || possibleCastles?.includes(node.square);
+    const isPossiblePromotion = possiblePromotions?.includes(node.square);
+    const isPossibleCapture = possibleCaptures?.includes(node.square);
+    const isOpponentMove = opponentMoves?.includes(node.square);
+
 
 
     // checks to see if the player is in check.
@@ -35,36 +38,37 @@ const Node = ({ node, idx, makeMove, setFromSquare, board }) => {
         return turn === color && isKing && check;
     };
 
-    // implements a handler for the Drop event.
-    const handleClick = () => {
-
-        try {
-            
-            console.log(possibleMoves);
-            makeMove(node.square);
-        } catch (error) {
-            console.log("Lol dummy, you can't move that piece there.")
+    // implements a handler for the RightClick event.
+    const handleRightClick = (e) => {
+        const the_promo = 'q'
+        e.preventDefault();
+        
+     
+        if (isPossiblePromotion) {
+            makeMove(node.square, the_promo)
         }
+        makeMove(node.square);
+      
     };
 
 
 
 
     return (
-        <div className={`node ${light ? 'light' : 'dark'} `} style={{ position: 'relative' }}
-
-            onClick={handleClick}
-            ref={tempRef}>
-
-            <div
-                className={
-                    `overlay 
-                ${isPossibleMove && 'possible-move'} 
-                ${inCheck() && 'check'} 
-                ${isOpponentMove && 'opponent-move'}`}
+        <div 
+        className={`node ${light ? 'light' : 'dark'} `} 
+        style={{ position: 'relative' }} 
+        onContextMenu={(e) => handleRightClick(e)} 
+        ref={tempRef}>
+            <div className={`overlay 
+                            ${isPossibleMove && 'possible-move' } 
+                            ${isPossibleCapture && 'possible-capture' } 
+                            ${isPossiblePromotion && 'possible-promotion' } 
+                            ${inCheck() && 'check'} 
+                            ${isOpponentMove && 'opponent-move'}`}
             >
-                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} isMoving={isMoving} />
-            </div>s
+                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare}  />
+            </div>
         </div>
     );
 };
