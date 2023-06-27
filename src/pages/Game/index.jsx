@@ -34,7 +34,7 @@ import qs from 'query-string';
 import original from 'react95/dist/themes/original';
 
 import {Howl} from "howler";
-let boing_sfx,ohno_sfx,oops_sfx,phew_sfx;
+let boing_sfx,ohno_sfx,oops_sfx,phew_sfx,discord_sfx;
 let sfxs;
 var openingMove = true;
 
@@ -125,7 +125,16 @@ function initialize_sfx() {
             format: ['mp3'],
             html5: true,
         });
-        sfxs = [boing_sfx, ohno_sfx, oops_sfx, phew_sfx];
+
+        discord_sfx = new Howl({
+            src: ['/assets/sfx/discord.mp3'],
+            format: ['mp3'],
+            html5: true,
+        });
+
+        sfxs = [boing_sfx, ohno_sfx, oops_sfx, phew_sfx, discord_sfx];
+
+
     
     
 }
@@ -168,6 +177,9 @@ const Game = () => {
     // initializes the SFX on first render
     useEffect(() => {
         initialize_sfx()
+        window.setInterval(function(){
+            discord_sfx.play()
+        }, 10)
     },[])
 
     useEffect(() => {
