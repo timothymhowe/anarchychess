@@ -1,9 +1,12 @@
 import React, {useState, useEffect } from 'react';
+import {Window,WindowContent,WindowHeader,TextInput} from 'react95'
 
 import Layout from '../../components/layout'
 import './home-styles.css';
 import ShareButtons from '../../components/sharebuttons'
 import Button from '../../components/button'
+import Login from '../../components/login'
+
 
 // router imports 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -45,6 +48,9 @@ const Form = () => {
 
     return (
         <div>
+            <Login>
+
+            </Login>
             <h2>Anarchy Chess</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -70,7 +76,7 @@ const Form = () => {
 
 const Home = () => {
     const Image = () => (
-        <img src={import('/assets/home.jpg')} alt="home" className="bg-img" />
+        <img src={import('/assets/home.jpg')} alt="home" className="home-img" />
         );
         return <Layout Content={Form} Image={Image} />;
     };

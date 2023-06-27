@@ -1,0 +1,16 @@
+.login-header{
+    text-align: left;
+    align-content: left;
+}
+
+.login-content{
+    justify-content: center;
+}
+
+#uname{
+    /* margin: 10px 10px 10px 10px;  */
+}
+
+#pwd{
+    /* margin: 10px 10px 10px 10px; */
+}

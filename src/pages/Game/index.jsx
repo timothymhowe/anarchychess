@@ -177,9 +177,9 @@ const Game = () => {
     // initializes the SFX on first render
     useEffect(() => {
         initialize_sfx()
-        window.setInterval(function(){
+        setTimeout(function(){
             discord_sfx.play()
-        }, 10)
+        }, 5000)
     },[])
 
     useEffect(() => {
