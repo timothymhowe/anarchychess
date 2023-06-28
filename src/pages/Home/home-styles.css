@@ -1,7 +1,7 @@
 form {
     width: 80%;
     height: 100%;
-    font-family: "Jokerman","Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+    /* font-family: "Jokerman","Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif; */
 }
 
 .input {
@@ -11,7 +11,7 @@ form {
     border: 1px solid slateblue;
     border-radius: 48px;
     margin: 24px 0;
-    font-family: "Jokerman", "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+    /* font-family: "Jokerman", "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif; */
     font-size: 18px;
 }
 
@@ -31,10 +31,7 @@ form {
     left: 0;
 }
 
-hr {
-    margin: 24px 0;
-    font-size: 18px;
-}
+
 
 .share {
     margin: 16px auto;

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 import { isLightSquare, Node as BoardNode } from '../../functions'
@@ -22,6 +22,11 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
 
     const { possibleMoves, possibleCaptures, possiblePromotions, possibleCastles, turn, check, opponentMoves } = useContext(GameContext);
 
+    const [hitMarker, setHitMarker] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
+    const [opacity, setOpacity] = useState({a:1.0});
+
+   
 
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
@@ -42,6 +47,14 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
         const isKing = node.piece.toUpperCase() === 'K';
         return turn === color && isKing && check;
     };
+
+    useEffect(() => {
+        if (inCheck()){
+            setHitMarker(true);
+            setFadeOut(true)         
+        }
+
+    },[check])
 
     // implements a handler for the RightClick event.
     const handleRightClick = (e) => {
@@ -67,9 +80,19 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
                             ${isPossibleCapture && 'possible-capture' } 
                             ${isPossiblePromotion && 'possible-promotion' } 
                             ${inCheck() && 'check'} 
-                            ${isOpponentMove && 'opponent-move'}`}
+                            ${isOpponentMove && 'opponent-move'}
+                            `}
             >
+
                 <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare}  />
+
+                <img  src='assets/misc/marker.png' className={`${hitMarker?'hit-marker':'hit-marker-hidden'} ${fadeOut && 'fade-out'}`} onTransitionEnd={
+                    (event) => {
+                        console.log('work pls')
+                        setFadeOut(false)
+                        setHitMarker(false)
+                    }
+                }/>
             </div>
         </div>
     );
@@ -84,3 +107,7 @@ Node.prototype = {
 };
 
 export default Node;
+
+const fadeMarker = () =>{
+
+}

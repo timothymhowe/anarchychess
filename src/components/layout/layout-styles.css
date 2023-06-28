@@ -5,7 +5,7 @@
 	position: relative;
 }
 
-.app-title {
+/* .app-title {
 	margin: 1.5rem;
 	padding: 1rem;
 	background-color: #fff;
@@ -19,23 +19,19 @@
 	font-size: 1.2rem;
 	box-shadow: 0 0 20px 7px #fafafa;
 	cursor: pointer;
-	font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
-}
+	/* font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif; */
+/* }
 .app-title:hover {
 	animation: glow 1.5s infinite ease-in-out;
-}
+} */
 .flex {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	
 }
 
-.bg-img {
-	height: 100vh;
-	flex: 0.5;
-	width: 60vw;
-}
 
 .content {
 	flex: 0.5;
@@ -43,9 +39,7 @@
 	text-align: center;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
-	font-family: 'Jokerman', sans-serif;
 }
 
 @keyframes glow {

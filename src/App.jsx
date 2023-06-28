@@ -11,11 +11,16 @@ import original from "react95/dist/themes/original";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import GlobalStyle from './globalstyles';
+
+
 function App() {
 	return (
+		
 		<Router>
-			{/* <DndProvider> */}
+			<GlobalStyle />
 			<ThemeProvider theme={original}>
+
 			<GameProvider>
 				<Routes>
 					<Route path="/" exact element={<Home/>} />
@@ -23,7 +28,6 @@ function App() {
 				</Routes>
 			</GameProvider>
 			</ThemeProvider>
-			{/* </DndProvider> */}
 		</Router>
 	);
 }

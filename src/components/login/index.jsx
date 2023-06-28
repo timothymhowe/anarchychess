@@ -20,35 +20,42 @@ import './login-styles.css'
 
 
 
-const Login = () =>{
-
-    const [uname, setUname] = useState();
-
-    
-
+const Login = ({setName, setGID, onClick}) =>{
     return (
-        <Window >
+        <Window className='login-window'>
             <WindowHeader className='login-header'>
-            Hello world!
-            
+            Sign In
             </WindowHeader>
 
             <WindowContent className='login-content'>
-            <TextInput id='uname'>
+
+            <div className='login-row'>
+            <span>
+                Username/Email:
+            </span>
+            <TextInput id='uname' onChange={(x) => setName(x)}  inputMode='email'>
 
             </TextInput>
+            </div>
 
+            <div className='box-divider' />
 
-            <TextInput id='pass'>
+            <div className='login-row'>
+            <span>
+                Game ID:
+            </span>
+            <TextInput id='gid' onChange={(x) => setGID(x)}  inputMode='numeric'>
 
             </TextInput>
+            </div>
 
             <Checkbox label='Remember Me?'>
-
             </Checkbox>
             </WindowContent>
             <div id='login-buttons'>
-                <Button label='Login' />
+                <Button label='Login' onClick={onClick}>
+                    Login
+                </Button>
                 
             </div>
 

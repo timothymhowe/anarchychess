@@ -83,3 +83,32 @@
             #eb7b6a 100%);
 
 }
+
+
+
+.hit-marker{
+    object-fit: scale-down;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2000;
+
+   
+
+}
+
+.fade-out{
+    opacity: 0;
+    transition: all 200ms cubic-bezier(0, 0, 0, 0.97) 100ms;
+    
+
+}
+
+.hit-marker-hidden{
+    height: 0;
+    width: 0;
+    display:none;
+    z-index: 5;
+}

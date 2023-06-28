@@ -1,10 +1,21 @@
+.login-window{
+    width:600px;
+    height:250px;
+}
+
 .login-header{
     text-align: left;
     align-content: left;
+    width: 800;
+    user-select: none;
 }
 
 .login-content{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    margin: 0 5%;
+
 }
 
 #uname{
@@ -13,4 +24,17 @@
 
 #pwd{
     /* margin: 10px 10px 10px 10px; */
+}
+
+.box-divider {
+    height: 10px;
+    user-select: none;
+}
+
+.login-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
