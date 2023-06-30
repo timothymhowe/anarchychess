@@ -11,20 +11,33 @@
 }
 
 .login-content{
-    display: flex;
+    display: grid;
     flex-direction: column;
     justify-content: center;
     margin: 0 5%;
+    width: auto;
+    height:auto;
 
+    grid-template-columns: repeat(4, 1fr);
+    gap:5px;
+    grid-template-rows:repeat(4,1fr);
+
+}
+
+.input-container{
+    grid-column: 2 / 5;
 }
 
 #uname{
-    /* margin: 10px 10px 10px 10px;  */
+    width: auto;
+    grid-row:1;
 }
 
 #pwd{
-    /* margin: 10px 10px 10px 10px; */
+    width:auto;
+    grid-row:2;
 }
+
 
 .box-divider {
     height: 10px;
@@ -34,7 +47,28 @@
 .login-row{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
-    width: 100%;
+    width: auto;
+}
+
+.input-label{
+    padding-right: 25px;
+    width:auto;
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+.remember-me{
+    width: auto;
+   grid-row: 3; 
+   grid-column: 1;
+}
+
+.login-buttons{
+    width:auto;
+    align-items: center;
+    grid-row: 4;
+    grid-column: 3;
 }

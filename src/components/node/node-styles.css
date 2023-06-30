@@ -107,8 +107,6 @@
 }
 
 .hit-marker-hidden{
-    height: 0;
-    width: 0;
     display:none;
-    z-index: 5;
+    z-index: -1;
 }

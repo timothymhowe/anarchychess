@@ -20,47 +20,45 @@ import './login-styles.css'
 
 
 
-const Login = ({setName, setGID, onClick}) =>{
+const Login = ({setName, setGID, onClick}) =>{  
     return (
         <Window className='login-window'>
-            <WindowHeader className='login-header'>
+            <WindowHeader className='login-header' style={{paddingLeft:'10px'}}>
             Sign In
             </WindowHeader>
 
             <WindowContent className='login-content'>
 
-            <div className='login-row'>
-            <span>
+            <div className='input-label'>
                 Username/Email:
-            </span>
-            <TextInput id='uname' onChange={(x) => setName(x)}  inputMode='email' autoComplete='off'>
-
-            </TextInput>
             </div>
 
-            <div className='box-divider' />
+            <div className='input-container'>
+            <TextInput id='uname' onChange={(x) => setName(x)}  inputMode='email' autoComplete='off' />
+            </div>
 
-            <div className='login-row'>
-            <span>
+            <div className='input-label'>
                 Game ID:
-            </span>
-            <TextInput id='gid' onChange={(x) => setGID(x)}  inputMode='numeric' autoComplete='off'>
-
-            </TextInput>
+            </div>
+            
+            
+            <div className='input-container' id='gid-container'>
+            <TextInput id='gid' onChange={(x) => setGID(x)}  inputMode='numeric' autoComplete='off' />
             </div>
 
-            <Checkbox label='Remember Me?'>
-            </Checkbox>
-            </WindowContent>
+
+            <div className='remember-me'>
+            <Checkbox label='Remember Me?' />
+            </div>
+             
             <div id='login-buttons'>
-                <Button label='Login' onClick={onClick}>
+                <Button label='Login' onClick={onClick} style={{width:'auto'}}>
                     Login
                 </Button>
-                
             </div>
 
-
-        </Window>
+            </WindowContent>
+            </Window>
     )
 
 }

@@ -24,7 +24,6 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
 
     const [hitMarker, setHitMarker] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
-    const [opacity, setOpacity] = useState({a:1.0});
 
    
 
@@ -51,7 +50,10 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
     useEffect(() => {
         if (inCheck()){
             setHitMarker(true);
-            setFadeOut(true)         
+            
+            setTimeout(() => {
+                setFadeOut(true)
+            })
         }
 
     },[check])
@@ -86,7 +88,7 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
 
                 <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare}  />
 
-                <img  src='assets/misc/marker.png' className={`${hitMarker?'hit-marker':'hit-marker-hidden'} ${fadeOut && 'fade-out'}`} onTransitionEnd={
+                <img  src='assets/misc/marker.png' className={`${hitMarker?'hit-marker':'hit-marker-hidden'} ${fadeOut?'fade-out':''}`}   onTransitionEnd={
                     (event) => {
                         console.log('work pls')
                         setFadeOut(false)
