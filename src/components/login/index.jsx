@@ -33,7 +33,7 @@ const Login = ({setName, setGID, onClick}) =>{
             <span>
                 Username/Email:
             </span>
-            <TextInput id='uname' onChange={(x) => setName(x)}  inputMode='email'>
+            <TextInput id='uname' onChange={(x) => setName(x)}  inputMode='email' autoComplete='off'>
 
             </TextInput>
             </div>
@@ -44,7 +44,7 @@ const Login = ({setName, setGID, onClick}) =>{
             <span>
                 Game ID:
             </span>
-            <TextInput id='gid' onChange={(x) => setGID(x)}  inputMode='numeric'>
+            <TextInput id='gid' onChange={(x) => setGID(x)}  inputMode='numeric' autoComplete='off'>
 
             </TextInput>
             </div>
