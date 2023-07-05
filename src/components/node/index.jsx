@@ -53,7 +53,7 @@ const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
             
             setTimeout(() => {
                 setFadeOut(true)
-            })
+            },500)
         }
 
     },[check])
