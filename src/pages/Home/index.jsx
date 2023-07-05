@@ -1,9 +1,12 @@
 import React, {useState, useEffect } from 'react';
+import {Window,WindowContent,WindowHeader,TextInput} from 'react95'
 
 import Layout from '../../components/layout'
 import './home-styles.css';
 import ShareButtons from '../../components/sharebuttons'
 import Button from '../../components/button'
+import Login from '../../components/login'
+
 
 // router imports 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -44,8 +47,10 @@ const Form = () => {
     };
 
     return (
-        <div>
-            <h2>Anarchy Chess</h2>
+            <Login setName={setName} setGID={setGID} onClick={handleSubmit}>
+
+            </Login>
+            /* <h2>Anarchy Chess</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -55,7 +60,7 @@ const Form = () => {
                     placeholder="Display Name"
                 />
                 <div className="gameId">Game ID: {GID}</div>
-                <hr />
+
                 <p className="invite">Challenge your friends to a game of AnarchyChess</p>
                 <ShareButtons
                     shareText={`https://anarchychess.io?id=${GID}`}
@@ -63,14 +68,14 @@ const Form = () => {
                     />
 
                 <Button onClick={handleSubmit}>Start Game...</Button>
-            </form>
-        </div>
+            </form> */
+      
     )
 }
 
 const Home = () => {
     const Image = () => (
-        <img src={import('/assets/home.jpg')} alt="home" className="bg-img" />
+        <img src={import('/assets/home.jpg')} alt="home" className="home-img" />
         );
         return <Layout Content={Form} Image={Image} />;
     };

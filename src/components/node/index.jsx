@@ -1,13 +1,11 @@
-import React, {useContext, useState, useRef} from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
-
-import Draggable from 'react-draggable'
-
-
 
 import { isLightSquare, Node as BoardNode } from '../../functions'
 import Piece from '../piece';
-import {GameContext} from '../../context/GameContext';
+import { GameContext } from '../../context/GameContext';
+
+import PromotionWindow from "../promotion";
 
 import './node-styles.css';
 
@@ -16,22 +14,32 @@ import './node-styles.css';
  * @param {*} param0 
  * @returns 
  */
-const Node = ({node,idx, makeMove, setFromSquare, board}) => {
+const Node = ({ node, idx, makeMove, setFromSquare, setPromote }) => {
 
     const tempRef = useRef(); // for handling the Strict Mode warning
 
-    const light = isLightSquare(node.square,idx);
+    const light = isLightSquare(node.square, idx);
 
-    const { possibleMoves, turn, check, opponentMoves } = useContext(GameContext);
-    
+    const { possibleMoves, possibleCaptures, possiblePromotions, possibleCastles, turn, check, opponentMoves } = useContext(GameContext);
+
+    const [hitMarker, setHitMarker] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
+
+   
+
     // check color of the piece
     const color = node.piece.toUpperCase() === node.piece ? 'w' : 'b';
 
     // determines if the node is a valid move
-    const isPossibleMove = possibleMoves.includes(node.square);
-    const isOpponentMove = opponentMoves.includes(node.square);
+    const isPossibleMove = possibleMoves.includes(node.square) || possibleCastles?.includes(node.square);
+    const isPossiblePromotion = possiblePromotions?.includes(node.square);
+    const isPossibleCapture = possibleCaptures?.includes(node.square);
+    const isOpponentMove = opponentMoves?.includes(node.square);
 
-    const [dropTarget, setDropTarget] = useState(false)
+
+
+
+
 
     // checks to see if the player is in check.
     const inCheck = () => {
@@ -39,45 +47,56 @@ const Node = ({node,idx, makeMove, setFromSquare, board}) => {
         return turn === color && isKing && check;
     };
 
-    // implements a handler for the Drop event.
-    const handleDrop = () =>{
-        console.log("Dropped on " + node.square)
-        try{
-            makeMove(node.square);
-        } catch (error){
+    useEffect(() => {
+        if (inCheck()){
+            setHitMarker(true);
             
+            setTimeout(() => {
+                setFadeOut(true)
+            },500)
+        }
+
+    },[check])
+
+    // implements a handler for the RightClick event.
+    const handleRightClick = (e) => {
+        e.preventDefault();     
+        if (isPossiblePromotion) {
+            setPromote(node.square)    
+        } else {
+        makeMove(node.square);
         }
     };
 
-    const handleMouseLeave = (e) =>{
-      e.preventDefault();
-        
-    };
 
-    const handleDragOver = (e) =>{
-        e.preventDefault();
-    }
+
 
     return (
-    // <Draggable onStart={()=>false} nodeRef={tempRef}>
-    <div className={`node ${light ? 'light' : 'dark'} `} style={{position:'relative'}}
-        
-        onMouseUp = {handleDrop}
-        onMouseOver={(e) => handleDragOver(e)}
-        onMouseLeave={(e) => handleMouseLeave(e)}
-        ref={tempRef}>
-
         <div 
-            className={
-                `overlay 
-                ${isPossibleMove && 'possible-move'} 
-                ${ inCheck() && 'check'} 
-                ${isOpponentMove && 'opponent-move'}`}     
-        >
-            <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare} boardRef={board} />
+        className={`node ${light ? 'light' : 'dark'} `} 
+        style={{ position: 'relative' }} 
+        onContextMenu={(e) => handleRightClick(e)} 
+        ref={tempRef}>
+            <div className={`overlay 
+                            ${isPossibleMove && 'possible-move' } 
+                            ${isPossibleCapture && 'possible-capture' } 
+                            ${isPossiblePromotion && 'possible-promotion' } 
+                            ${inCheck() && 'check'} 
+                            ${isOpponentMove && 'opponent-move'}
+                            `}
+            >
+
+                <Piece square={node.square} name={node.piece} setFromSquare={setFromSquare}  />
+
+                <img  src='assets/misc/marker.png' className={`${hitMarker?'hit-marker':'hit-marker-hidden'} ${fadeOut?'fade-out':''}`}   onTransitionEnd={
+                    (event) => {
+                        console.log('work pls')
+                        setFadeOut(false)
+                        setHitMarker(false)
+                    }
+                }/>
+            </div>
         </div>
-    </div>
-    // </Draggable>
     );
 };
 
@@ -86,7 +105,11 @@ Node.prototype = {
     idx: PropTypes.number.isRequired,
     makeMove: PropTypes.func,
     setFromSquare: PropTypes.func,
-    
+
 };
 
 export default Node;
+
+const fadeMarker = () =>{
+
+}

@@ -5,8 +5,8 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 /* Original Windows95 font (optional) */
 // import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
-import ms_sans_serif from '../../assets/fonts/w95fa.woff2';
-import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
+// import ms_sans_serif from '../../assets/fonts/w95fa.woff2';
+// import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
 
 import Taskbar from '../../components/taskbar/taskbar'
 import Shortcut from '../../components/shortcut'
@@ -14,7 +14,7 @@ import Shortcut from '../../components/shortcut'
 import Draggable from 'react-draggable'
 
 import {GameContext} from '../../context/GameContext';
-import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/actions';
+import { setMessage, setOpponent, setOpponentMoves, setPlayer, setPlayerColor, types } from '../../context/game_actions';
 import { DEFAULT_POSITION, Chess} from 'chess.js';
 import { createBoard,getGameOverState }  from "../../functions";
 import Board from '../../components/board';
@@ -34,7 +34,7 @@ import qs from 'query-string';
 import original from 'react95/dist/themes/original';
 
 import {Howl} from "howler";
-let boing_sfx,ohno_sfx,oops_sfx,phew_sfx;
+let boing_sfx,ohno_sfx,oops_sfx,phew_sfx,discord_sfx, marker_sfx;
 let sfxs;
 var openingMove = true;
 
@@ -83,25 +83,25 @@ height:calc(100vh - 47px);
 `;  
 
 
-const GlobalStyles = createGlobalStyle`
-${styleReset}
-@font-face {
-    font-family: 'ms_sans_serif';
-    src: url('${ms_sans_serif}') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'ms_sans_serif';
-    src: url('${ms_sans_serif_bold}') format('woff2');
-    font-weight: bold;
-    font-style: normal
-  }
-  body, input, select, textarea, button {
-    font-family: 'ms_sans_serif';
-  }
-  background-color:#008080
-`
+// const GlobalStyles = createGlobalStyle`
+// ${styleReset}
+// @font-face {
+//     font-family: 'ms_sans_serif';
+//     src: url('${ms_sans_serif}') format('woff2');
+//     font-weight: normal;
+//     font-style: normal;
+//   }
+//   @font-face {
+//     font-family: 'ms_sans_serif';
+//     src: url('${ms_sans_serif_bold}') format('woff2');
+//     font-weight: bold;
+//     font-style: normal
+//   }
+//   body, input, select, textarea, button {
+//     font-family: 'ms_sans_serif';
+//   }
+//   background-color:#008080
+// `
 
 // initializes howl sfx for board interactivity
 function initialize_sfx() {
@@ -125,7 +125,21 @@ function initialize_sfx() {
             format: ['mp3'],
             html5: true,
         });
-        sfxs = [boing_sfx, ohno_sfx, oops_sfx, phew_sfx];
+
+        discord_sfx = new Howl({
+            src: ['/assets/sfx/discord.mp3'],
+            format: ['mp3'],
+            html5: true,
+        });
+        marker_sfx = new Howl({
+            src: ['/assets/sfx/marker.mp3'],
+            format: ['mp3'],
+            html5: true,
+        });
+
+        sfxs = [boing_sfx, ohno_sfx, oops_sfx, phew_sfx, discord_sfx, marker_sfx];
+
+
     
     
 }
@@ -147,6 +161,20 @@ const socket = io('localhost:5001')
  * @returns 
  */
 const Game = () => {
+
+    
+    const [realTime,setRealTime] = useState(false);
+    
+    useEffect(()=>{
+        let delay;
+        if(realTime){
+            delay = window.setTimeout(function(){
+                discord_sfx.play()
+            }, 10000)
+        }
+
+    },[realTime])
+
     
     // defines stateful fen and a setter method for fen
     const [fen, setFen] = useState(DEFAULT_POSITION);
@@ -158,6 +186,7 @@ const Game = () => {
         playerName: player,
         opponentName,
         playerColor,
+        check,
     } = useContext(GameContext);
 
     const location = useLocation();
@@ -165,7 +194,7 @@ const Game = () => {
     const playerName = useRef();
     const GID = useRef();
 
-    // initializes the SFX on render
+    // initializes the SFX on first render
     useEffect(() => {
         initialize_sfx()
     },[])
@@ -212,6 +241,7 @@ const Game = () => {
             dispatch(setOpponent(opponent));
         });
 
+        // sets up listener for when the network opponent makes a move
         socket.on('opponentMove',({from,to}) => {
             chess.move({ from, to });
             setFen(chess.fen());
@@ -251,33 +281,46 @@ const Game = () => {
         });
     }, [fen, dispatch, chess]);
 
-    const fromSquare = useRef();
+    useEffect(()=>{
+        if(check){
+            marker_sfx.play();
+        }
+    },[check])
 
+    const fromSquare = useRef();
 
     /**
      *  Function for making a move with a piece, validated by `chess.js`
      * @param {*} square 
      */
-    const makeMove = (square) => {
+    const makeMove = (square, promotion) => {
 
-        // if (openingMove){
-        //     initialize_sfx()
-        //     openingMove = false;
-        // }
+        if (openingMove){
+             setRealTime(true)
+             openingMove = false;
+         }
 
+        const prom = promotion
         const from = fromSquare.current;
         const to = square;
+        let move;
+        if (promotion){
+            move={from:from,to:to,promotion:prom}
+        } else {
+            move = {from:from,to:to}
+        }
         
         // attempt to move
         
         try {
-            chess.move({from, to});
+            chess.move(move);
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             setFen(chess.fen());
             socket.emit('move', {GID:GID.current, from, to})
 
         } catch (error){
             //if the move is not valid
+            console.log(error)
             dispatch({type:types.CLEAR_POSSIBLE_MOVES});
             if (from != to){
             const which_sound = Math.floor(Math.random() * 4)
@@ -304,7 +347,6 @@ const Game = () => {
     
     return (
     <div style={{height:'100vh'}}>
-     <GlobalStyles />
 
     <Desktop style={{overflow:"clip"}}>
 

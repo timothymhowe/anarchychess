@@ -7,6 +7,9 @@ import {Frame} from 'react95';
 
 
 const Board = ({ nodes, ...props }) => {
+
+
+
     const boardRef = useRef()
     return (
         <Frame variant='well' className='boardbox'>
@@ -14,7 +17,7 @@ const Board = ({ nodes, ...props }) => {
         
             <div className="board" style={{aspectRatio:'1 / 1',position:'relative'}} id="the-board" ref={boardRef} >
                 {nodes.map((node,idx)=>(
-                    <Node node={node} idx={idx} key={node.square} {...props} board={boardRef} />
+                    <Node node={node} idx={idx} key={node.square} {...props} board={boardRef}  />
                 ))}
         </div>
         </Frame>

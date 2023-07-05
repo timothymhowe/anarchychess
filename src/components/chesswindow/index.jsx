@@ -1,19 +1,30 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import { Button, Frame, Toolbar, Window, WindowContent, WindowHeader, styleReset, ScrollView } from 'react95';
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Draggable from "react-draggable";
 import PropTypes from 'prop-types'
 
-import Board from '../board'
+import './chesswindow-styles.css';
+
+import Board from '../board';
+import ReactModal from "react-modal";
+import PromotionWindow from "../promotion";
 
 
 const ChessWindow = ({board, makeMove, setFromSquare}) => {
     const tempRef = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    const tempRef2 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    const tempRef3 = useRef(); // per react-draggable API, im trying to fix warning thrown by react about deprecated FindDOMNode
+    
+    const modalRef = useRef(); 
 
+
+
+    const [promote, setPromote] = useState('');
 
     return (
         <Draggable bounds='parent' handle=".window-title" nodeRef={tempRef}>
-        <Window className="window" ref={tempRef}>
+        <Window className="window" ref={tempRef} nodeRef={modalRef}>
             <WindowHeader className="window-title" style={{height:'30px'}}>
                 <span>
                     <span role='img' style={{height:'100%', paddingLeft:'2px',paddingRight:'5px',textalign:'center'}}>
@@ -22,9 +33,21 @@ const ChessWindow = ({board, makeMove, setFromSquare}) => {
                     </span>
                         AnarchyChess.exe
                 </span> 
-                <Button style={{height:'25px',width:'25px',marginTop:'3px'}}select>
-                    <span className="close-icon" />
-                </Button>
+                <div className="window-button-panel">
+
+
+                    {/* Trying to get the buttons to not be able to drag the window around. */}
+                    <Draggable onStart={()=>false} nodeRef={tempRef2}>
+                      <Button style={{height:'25px',width:'25px',marginTop:'3px', marginRight:'2px'}} className="window-button" ref={tempRef2} select>
+                          <span className="minimize-icon" />
+                      </Button>
+                    </Draggable>
+                    <Draggable onStart={()=>false} nodeRef={tempRef3}>
+                      <Button style={{height:'25px',width:'25px',marginTop:'3px'}} className="window-button" ref={tempRef3} select>
+                          <span className="close-icon" />
+                      </Button>
+                    </Draggable>
+                </div>
             </WindowHeader>
 
             <Toolbar>
@@ -50,7 +73,9 @@ const ChessWindow = ({board, makeMove, setFromSquare}) => {
                         nodes={board} 
                         makeMove={makeMove} 
                         setFromSquare={setFromSquare} 
+                        setPromote = {setPromote}
                     />
+                    <PromotionWindow makeMove={makeMove} promote={promote} boardRef={tempRef} />
             </div>
             </Window>
             </Draggable>
